@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
         $registrosPorPagina = 30;
         $indiceNaNavegacao = $_POST["indice"] + 1;
-        $indiceReal = ($paginaAtual - 1) * $registrosPorPagina + $indiceNaNavegacao;
+        $indiceReal = ($paginaAtual - 1) * $registrosPorPagina + $indiceNaNavegacao - 1;
         $dados = excluirRegistro($dados, $indiceReal);
     }
 
