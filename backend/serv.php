@@ -17,7 +17,6 @@ if (isset($_POST["login"])) {
     if (isset($_POST["pw"])) {
         $pw = md5($_POST["pw"]);
 		if ($pw == $correctPassword) {
-			echo "correctCredentials";
 			$token = bin2hex(random_bytes(32));
 			setcookie("login_dashbauth", $token, [
 				'expires' => time() + (86400 * 30),
@@ -27,6 +26,7 @@ if (isset($_POST["login"])) {
 				'samesite' => 'None',
 			]);
 			$_SESSION["dashbauth"] = $token;
+			echo "correctCredentials";
 		}
     }
     exit();
