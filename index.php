@@ -29,7 +29,6 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
     <script src="js/color-modes.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <meta name="apple-mobile-web-app-title" content="Dashboard Hospital">
     <meta name="application-name" content="Dashboard Hospital">
     <meta name="msapplication-TileColor" content="#b91d47">
@@ -41,12 +40,11 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
     <link rel="stylesheet" href="css/bootstrap-icons-1.11.1.css">
     <link rel="stylesheet" href="css/mdtoast.min.css?v=2.0.2">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="js/moment.min.js"></script>
-    <script src="js/tables.js"></script>
 
     <title>Dashboard Hospital</title>
 
@@ -71,38 +69,38 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
     }
     @media screen and (max-width: 530px) {
     #notf {
-        display: block;
+      display: block;
     }
     #dot{
-        display:none;
+      display:none;
     }
     }
     .doughnut-chart-container {
-    height: 360px;
-    width: 360px;
-    float: left;
+      height: 360px;
+      width: 360px;
+      float: left;
     }
     .preload-screen {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .preload-screen:after {
-    content: " ";
-    display: block;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border-radius: 50%;
-    border: 6px solid #3194f7;
-    border-color: #3282d1 transparent #3282d1 transparent;
-    animation: lds-dual-ring 1.2s linear infinite;
+      content: " ";
+      display: block;
+      width: 64px;
+      height: 64px;
+      margin: 8px;
+      border-radius: 50%;
+      border: 6px solid #3194f7;
+      border-color: #3282d1 transparent #3282d1 transparent;
+      animation: lds-dual-ring 1.2s linear infinite;
     }
     @keyframes lds-dual-ring {
     0% {
@@ -112,69 +110,64 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
         transform: rotate(360deg);
     }
     }
-
     .b-example-divider {
-    width: 100%;
-    height: 3rem;
-    background-color: rgba(0, 0, 0, .1);
-    border: solid rgba(0, 0, 0, .15);
-    border-width: 1px 0;
-    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      width: 100%;
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      border: solid rgba(0, 0, 0, .15);
+      border-width: 1px 0;
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
     }
-
     .b-example-vr {
-    flex-shrink: 0;
-    width: 1.5rem;
-    height: 100vh;
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
     }
-
     .bi {
-    fill: currentColor;
+      fill: currentColor;
     }
-
     .nav-scroller {
-    position: relative;
-    z-index: 2;
-    height: 2.75rem;
-    overflow-y: hidden;
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
     }
-
     .nav-scroller .nav {
-    display: flex;
-    flex-wrap: nowrap;
-    padding-bottom: 1rem;
-    margin-top: -1px;
-    overflow-x: auto;
-    text-align: center;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
     }
-
     .btn-bd-primary {
-    --bd-violet-bg: #712cf9;
-    --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-    --bs-btn-font-weight: 600;
-    --bs-btn-color: var(--bs-white);
-    --bs-btn-bg: var(--bd-violet-bg);
-    --bs-btn-border-color: var(--bd-violet-bg);
-    --bs-btn-hover-color: var(--bs-white);
-    --bs-btn-hover-bg: #6528e0;
-    --bs-btn-hover-border-color: #6528e0;
-    --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-    --bs-btn-active-color: var(--bs-btn-hover-color);
-    --bs-btn-active-bg: #5a23c8;
-    --bs-btn-active-border-color: #5a23c8;
+      --bd-violet-bg: #712cf9;
+      --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+      --bs-btn-font-weight: 600;
+      --bs-btn-color: var(--bs-white);
+      --bs-btn-bg: var(--bd-violet-bg);
+      --bs-btn-border-color: var(--bd-violet-bg);
+      --bs-btn-hover-color: var(--bs-white);
+      --bs-btn-hover-bg: #6528e0;
+      --bs-btn-hover-border-color: #6528e0;
+      --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+      --bs-btn-active-color: var(--bs-btn-hover-color);
+      --bs-btn-active-bg: #5a23c8;
+      --bs-btn-active-border-color: #5a23c8;
     }
-
     .bd-mode-toggle {
-    z-index: 1500;
+      z-index: 1500;
     }
-
     .bd-mode-toggle .dropdown-menu .active .bi {
-    display: block !important;
+      display: block !important;
     }
-
+    .footer {
+      border-bottom: none;
+      margin-bottom: 0px;
+      border-radius: 0 0 0 0;
+    }
     </style>
 </head>
 
@@ -229,169 +222,76 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
 <div class="preload-screen"></div>
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-success bg-success">
-        <a class="navbar-brand ps-2 text-light" href="index.php">💉 Dashboard Hospital</a>
-        <button class="btn btn-link btn-sm btn-secondary order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                class="fas fa-bars text-warning"></i></button>
-    </nav>
+  <nav class="sb-topnav navbar navbar-expand navbar-success bg-success">
+      <a class="navbar-brand ps-2 text-light exclude-ajax" href="index.php">💉 Dashboard Hospital</a>
+      <button class="btn btn-link btn-sm btn-secondary order-1 order-lg-0 me-4 me-lg-0<?php if(!$auth){ echo " hidden"; } ?>" id="sidebarToggle" href="#!"><i
+              class="fas fa-bars text-warning"></i></button>
+  </nav>
+
     <div class="container">
-        <div class="row<?php if(!$auth){ echo " hidden"; } ?>">
-            <div id="layoutSidenav">
-                <div id="layoutSidenav_nav">
-                    <nav class="alert alert-warning border-0 sb-sidenav accordion text-success" id="sidenavAccordion">
-                        <div class="sb-sidenav-menu">
-                            <div class="nav nav-pills">
-                                <div class="sb-sidenav-menu-heading">Interface</div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                    Dashboard
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                                    data-bs-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="charts.html">Gráficos</a>
-                                        <a class="nav-link" href="summary.html">Resumo</a>
-                                    </nav>
-                                </div>
-                                <div class="sb-sidenav-menu-heading">Configurações</div>
-                                <a class="nav-link" href="editor.php">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                    Editar tabela
-                                </a>
-                                <button type="button" onclick="logout()" class="nav-link">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-sign-out"></i></div>
-                                    Sair
-                                </a>
+        <div class="row<?php if(!$auth){ echo " hidden"; } ?>" id="dashboard">
+          <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="alert alert-warning border-0 sb-sidenav accordion text-success" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu"> 
+                        <div class="nav nav-pills">
+                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link collapsed exclude-ajax" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="includes/dashboard.php">Gráficos</a>
+                                    <a class="nav-link" href="includes/summary.html">Relatório</a>
+                                </nav>
                             </div>
+                            <div class="sb-sidenav-menu-heading">Configurações</div>
+                            <a class="nav-link" href="includes/editor.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Editar tabela
+                            </a>
+                            <button type="button" onclick="logout()" class="nav-link">
+                                <div class="sb-nav-link-icon"><i class="fas fa-sign-out"></i></div>
+                                Sair
+                            </button>
                         </div>
-                    </nav>
-                </div>
-                <div id="layoutSidenav_content">
-                    <main>
-                        <div class="container-fluid px-4">
-                            <h1 class="mt-4">Dashboard</h1>
-                            <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item active">Dashboard</li>
-                            </ol>
-                            <div class="row">
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="card bg-primary text-white mb-4">
-                                        <div class="card-body">Primary Card</div>
-                                        <div class="card-footer d-flex align-items-center justify-content-between">
-                                            <a class="small text-white stretched-link" href="#">View Details</a>
-                                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="card bg-warning text-white mb-4">
-                                        <div class="card-body">Warning Card</div>
-                                        <div class="card-footer d-flex align-items-center justify-content-between">
-                                            <a class="small text-white stretched-link" href="#">View Details</a>
-                                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="card bg-success text-white mb-4">
-                                        <div class="card-body">Success Card</div>
-                                        <div class="card-footer d-flex align-items-center justify-content-between">
-                                            <a class="small text-white stretched-link" href="#">View Details</a>
-                                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="card bg-danger text-white mb-4">
-                                        <div class="card-body">Danger Card</div>
-                                        <div class="card-footer d-flex align-items-center justify-content-between">
-                                            <a class="small text-white stretched-link" href="#">View Details</a>
-                                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-6">
-                                    <div class="card mb-4">
-                                        <div class="card-header">
-                                            <i class="fas fa-chart-area me-1"></i>
-                                            Area Chart Example
-                                        </div>
-                                        <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="card mb-4">
-                                        <div class="card-header">
-                                            <i class="fas fa-chart-bar me-1"></i>
-                                            Bar Chart Example
-                                        </div>
-                                        <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mt-5">
-                                <div class="card-header">
-                                    <i class="fas fa-table me-1"></i>
-                                    DataTable Example
-                                </div>
-                                <div class="card-body">
-                                    <table id="dataTable" class="table table-striped table-bordered"></table>
-                                        <!-- <thead><tr></tr></thead><tbody></tbody> -->
-                                </div>
-                            </div>
-                        </div>
-                    </main>
-                    <footer class="py-4 bg-light mt-auto">
-                        <div class="container-fluid px-4">
-                            <div class="d-flex align-items-center justify-content-between small">
-                                <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                                <div>
-                                    <a href="#">Privacy Policy</a>
-                                    &middot;
-                                    <a href="#">Terms &amp; Conditions</a>
-                                </div>
-                            </div>
-                        </div>
-                    </footer>
-                </div>
+                    </div>
+                </nav>
             </div>
+          </div>
+          <div id="content"></div>
+          <?php //include 'includes/dashboard.php'; ?>
         </div>
     </div>
 
     <!-- Login Modal -->
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel"><i class="bi bi-shield-lock"></i>&nbsp;Autenticação</h5>
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"><i class="bi bi-shield-lock"></i>&nbsp;Autenticação</h5>
+        </div>
+        <div class="modal-body">
+            <div class='alert alert-info' role='alert'>Informe a senha para acessar o painel</div>
+            <form onkeydown="return event.key != 'Enter';">
+                <div class="input-group">
+                    <span class="input-group-text" id="myPsw"><i class="bi bi-key"></i></span>
+                    <input type="password" id="lpwd" class="form-control" placeholder="" aria-label="Senha" aria-describedby="myPsw" autofocus>
+                    <div class="invalid-feedback">Senha inválida!</div>
                 </div>
-                <div class="modal-body">
-                    <div class='alert alert-info' role='alert'>Informe a senha para acessar o painel</div>
-                    <form onkeydown="return event.key != 'Enter';">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="myPsw">Senha</span>
-                            </div>
-                            <input type="password" class="form-control" placeholder="" aria-label="Password" aria-describedby="myPsw" id="lpwd" autofocus>
-                            <div class="invalid-feedback">Senha inválida!</div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-block btn-primary" onclick="loginToServer()" id="lbtn">Entrar</button>
-                </div>
-            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-block btn-primary" onclick="loginToServer()" id="lbtn">Entrar</button>
         </div>
     </div>
 
     <script src="js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
         crossorigin="anonymous"></script>
     <script src="js/bootstrap-5.3.2.bundle.min.js"></script>
@@ -399,6 +299,9 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
     <script src="js/mdtoast.min.js?v=2.0.2"></script>
     <script src="js/radialIndicator-2.0.0.min.js"></script>
     <script src="js/main.js?v=1.1.0"></script>
+    <script src="js/ajax.js"></script>
+    <script src="js/ajax-index-empty.js"></script>
+    
 </body>
 
 </html>

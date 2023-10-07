@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
 	$.ajax({
 		url: 'backend/get_data.php',
@@ -14,12 +15,14 @@ $(document).ready(function () {
 
 	function populateDataTable(data) {
 		if ($.fn.DataTable.isDataTable('#dataTable')) {
-			$('#dataTable').DataTable().destroy();
-			// table.clear();
-			// table.ajax.reload();
+			// 	$('#dataTable').DataTable().destroy();
+			// 	table.clear();
+			// 	table.ajax.reload();
+			table.clear().destroy();
 		}
 
 		var table = $('#dataTable').DataTable({
+			// autoWidth: false,
 			language: {
 				"sEmptyTable": "Nenhum dado encontrado",
 				"sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -61,6 +64,7 @@ $(document).ready(function () {
 				{
 					data: 'data',
 					title: 'Data',
+					// width: '15%',
 					render: function (data, type, row, meta) {
 						if (type === 'sort') {
 							return moment(data, 'DD/MM/YYYY').format('YYYY/MM/DD');
@@ -68,10 +72,15 @@ $(document).ready(function () {
 						return data;
 					}
 				},
+				// { data: 'nome', title: 'Nome', width: '18%' },
+				// { data: 'sintomas', title: 'Sintomas', width: '30%' },
+				// { data: 'comorbidades', title: 'Comorbidades', width: '15%' },
+				// { data: 'municipio', title: 'Município', width: '12%' },
+				// { data: 'leito', title: 'Leito', width: '10%' }
 				{ data: 'nome', title: 'Nome' },
 				{ data: 'sintomas', title: 'Sintomas' },
 				{ data: 'comorbidades', title: 'Comorbidades' },
-				{ data: 'municipio', title: 'Municipio' },
+				{ data: 'municipio', title: 'Município' },
 				{ data: 'leito', title: 'Leito' }
 			],
 			scrollX: true,
@@ -127,7 +136,7 @@ $(document).ready(function () {
 				// 	});
 			}
 		});
-		table.rows.add(data).draw();
+		// table.rows.add(data).draw();
 		table.order([0, 'desc']).draw();
 		table.rows().every(function () {
 			var rowData = this.data();
