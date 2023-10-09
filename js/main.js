@@ -107,12 +107,26 @@ function loginToServer() {
       $("#lpwd").addClass("is-valid").removeClass("is-invalid");
       $("#lbtn").html("Carregando...").addClass("btn-success").removeClass("btn-primary");
       setTimeout(() => {
-        $(".row").removeClass("hidden");
-        $("#ldiv").removeClass("hidden");
-        $('#staticBackdrop').modal('hide');
+        location.reload();
         setTimeout(() => {
-          location.reload(true);
-        }, 1000);
+          $('#staticBackdrop').modal('hide');
+          $(".row").removeClass("hidden");
+          $("#ldiv").removeClass("hidden");
+        }, 500);
+        // setTimeout(() => {
+        //   location.reload(true);
+        //   $.ajax({
+        //     url: '/includes/dashboard.php',
+        //     type: 'GET',
+        //     dataType: 'html',
+        //     success: function (response) {
+        //       $('#content').html(response);
+        //     },
+        //     error: function (xhr, status, error) {
+        //       console.error('Erro ao carregar a página:', status, error);
+        //     }
+        //   });
+        // }, 50);
       }, 1000);
     } else {
       $("#lpwd").prop("disabled", "");
