@@ -38,7 +38,6 @@ function populateDataTable(data) {
 		},
 		data: data,
 		columns: [
-			{ data: 'id', title: 'id', visible: true },
 			{
 				title: 'Ações',
 				width: '5%',
@@ -80,7 +79,8 @@ function populateDataTable(data) {
 			{ data: 'hipotese_diagnostica', title: 'Hipótese Diagnóstica' },
 			{ data: 'cotificacoes', title: 'Cotificações' },
 			{ data: 'data_de_atualizacao', title: 'Data de Atualização' },
-			{ data: 'status', title: 'Status' }
+			{ data: 'status', title: 'Status' },
+			{ data: 'id', title: 'id', visible: true }
 		],
 		// order: [],
 		// ordering: false,

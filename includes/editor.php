@@ -48,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ultimoId = end($dados)["id"];
         $novoId = $ultimoId + 1;
         $novoRegistro = array(
-            "id" => $novoId,
             "data" => isset($_POST["data"]) ? $_POST["data"] : null,
             "nome" => isset($_POST["nome"]) ? $_POST["nome"] : null,
             "sexo" => isset($_POST["sexo"]) ? $_POST["sexo"] : null,
@@ -65,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "cotificacoes" => isset($_POST["cotificacoes"]) ? $_POST["cotificacoes"] : null,
             "data_de_atualizacao" => isset($_POST["data_de_atualizacao"]) ? $_POST["data_de_atualizacao"] : null,
             "status" => isset($_POST["status"]) ? $_POST["status"] : null,
+            "id" => $novoId,
         );
 
         $dados = adicionarRegistro($dados, $novoRegistro);
@@ -74,7 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["indice_editar"])) {
         $indice = isset($_POST["indice_editar"]) ? intval($_POST["indice_editar"]) : -1;
         $registroAtualizado = array(
-            "id" => isset($_POST["indice_editar"]) ? $_POST["indice_editar"] : null,
             "data" => isset($_POST["data"]) ? $_POST["data"] : null,
             "nome" => isset($_POST["nome"]) ? $_POST["nome"] : null,
             "sexo" => isset($_POST["sexo"]) ? $_POST["sexo"] : null,
@@ -91,6 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "cotificacoes" => isset($_POST["cotificacoes"]) ? $_POST["cotificacoes"] : null,
             "data_de_atualizacao" => isset($_POST["data_de_atualizacao"]) ? $_POST["data_de_atualizacao"] : null,
             "status" => isset($_POST["status"]) ? $_POST["status"] : null,
+            "id" => isset($_POST["indice_editar"]) ? $_POST["indice_editar"] : null,
         );
 
         $dados = editarAtualizado($dados, $indice, $registroAtualizado);
@@ -114,7 +114,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $indiceAdicionar = isset($_POST["adicionar"]) ? intval($_POST["adicionar"]) : -1;
         $dados = array_values($dados);
         $novoRegistroEmBranco = array(
-            "id" => $indice,
             "data" => "",
             "nome" => "",
             "sexo" => "",
@@ -131,27 +130,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "cotificacoes" => "",
             "data_de_atualizacao" => "",
             "status" => "",
+            "id" => $indice,
         );
-        array_splice($dados, $indiceReal, 0, array($novoRegistroEmBranco));
+        array_splice($dados, $indice, 0, array($novoRegistroEmBranco));
     }
-    escreverArquivoJson($arquivoJson, $dados);
     foreach ($dados as $index => &$row) {
         $row['id'] = $index;
     }
+    escreverArquivoJson($arquivoJson, $dados);
     exit();
 }
-
-// Ler dados para exibição
-$dados = lerArquivoJson("../db/dados.json");
-
-$registrosPorPagina = 30;
-$totalRegistros = count($dados);
-$totalPaginas = ceil($totalRegistros / $registrosPorPagina);
-$paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
-$paginaAtual = max(1, min($paginaAtual, $totalPaginas)); 
-$indiceInicio = ($paginaAtual - 1) * $registrosPorPagina;
-$indiceFim = min($indiceInicio + $registrosPorPagina - 1, $totalRegistros - 1);
-$registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
+// // Ler dados para exibição
+// $dados = lerArquivoJson("../db/dados.json");
 ?>
 
 <!DOCTYPE html>
@@ -180,7 +170,6 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
     <div id="layoutSidenav">
         <div id="layoutSidenav_content">
             <main>
-                <!-- <div class="container-fluid px-4 exclude-ajax"> -->
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">Dashboard Hospital</h1>
                     <ol class="breadcrumb mb-4">
@@ -298,7 +287,7 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
         $(document).on('click', '.editar-btn', function () {
             var table = $('#dataTable').DataTable();
             var $row = $(this).closest('tr');
-            var idValue = table.cell({ row: $row.index(), column: 0 }).data();
+            // var idValue = table.cell({ row: $row.index(), column: 0 }).data();
             var realIndex = table.row($row).index();
             $('html, body').animate({ scrollTop: 0 }, 'fast');
             preencherCamposEditar(realIndex);
@@ -365,9 +354,12 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
                 type: 'POST',
                 data: $('#dadosForm').serialize(),
                 success: function (response) {
-                    // displayNotification('Editado com sucesso!');
-                    $('#content').html(response);
-                    $('#editar').val('Editar');
+                    // $('#editar').val('Editar');
+                    // $('#content').html(response);
+                    sessionStorage.setItem('temp_data', 'op_line');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1100);
                 },
                 error: function (xhr, status, error) {
                     console.error('Erro ao executar ação de edição:', status, error);
@@ -387,7 +379,7 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
                     sessionStorage.setItem('temp_data', 'op_line');
                     setTimeout(function () {
                         location.reload();
-                    }, 1000);
+                    }, 1100);
                 },
                 error: function (xhr, status, error) {
                     console.error('Erro ao executar ação de exclusão:', status, error);
@@ -406,13 +398,13 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
                     sessionStorage.setItem('temp_data', 'op_line');
                     setTimeout(function () {
                         location.reload();
-                    }, 1000);
+                    }, 1100);
                 },
                 error: function (xhr, status, error) {
                     console.error('Erro ao executar ação de exclusão:', status, error);
                 }
             }).done(function () {
-                displayNotification('Excluído com sucesso!');
+                displayNotification('Nova linha adicionada - id: ', indice);
             });
         }
 
@@ -471,7 +463,7 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
 
         function displayNotification(message) {
             mdtoast(message, {
-                duration: 2500,
+                duration: 1000,
                 type: mdtoast.INFO,
                 interaction: false
             });
