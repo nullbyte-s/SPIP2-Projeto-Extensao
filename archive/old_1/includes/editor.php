@@ -32,7 +32,11 @@ function excluirRegistro($dados, $indice)
 
 // Processamento do formulário
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+<<<<<<< HEAD
     $arquivoJson = "db/dados.json";
+=======
+    $arquivoJson = "../db/dados.json";
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
     $dados = lerArquivoJson($arquivoJson);
 
     // Adicionar novo registro
@@ -125,7 +129,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Ler dados para exibição
+<<<<<<< HEAD
 $dados = lerArquivoJson("db/dados.json");
+=======
+$dados = lerArquivoJson("../db/dados.json");
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
 
 $registrosPorPagina = 30;
 $totalRegistros = count($dados);

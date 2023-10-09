@@ -47,8 +47,13 @@ function populateDataTable(data) {
 						<div class="text-center align-items-center justify-content-center">
 							<input type="hidden" name="indice" value="${row.indice}">
 							<button class="bi bi-pencil-fill editar-btn" name="editar"></button><br>
+<<<<<<< HEAD
 							<button class="bi bi-trash3 excluir-btn" name="excluir"></button><br>
 							<button class="bi bi-plus-circle adc-btn" name="adicionar"></button>
+=======
+							<button class="bi bi-trash3" type="submit" name="excluir"></button><br>
+							<button class="bi bi-plus-circle" type="submit" name="adicionar"></button>
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
 						</div>
 					`;
 					return buttons;
@@ -109,6 +114,18 @@ function populateDataTable(data) {
 		var content = $(this).attr('title');
 		$(this).html(content);
 	});
+<<<<<<< HEAD
+=======
+	table.on('draw.dt', function () {
+		$(document).on('click', '.editar-btn', function () {
+			var rowIndex = $(this).closest('tr').index();
+			var realIndex = table.row(rowIndex).index();
+			var idValue = table.cell(realIndex, 'id:name').data();
+			$('html, body').animate({ scrollTop: 0 }, 'fast');
+			preencherCamposEditar(idValue);
+		});
+	});
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
 }
 $(document).ready(function () {
 	$.ajax({

@@ -1,5 +1,8 @@
 <?php
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
 // Funções CRUD
 function lerArquivoJson($caminho)
 {
@@ -28,6 +31,7 @@ function editarAtualizado($dados, $indice, $registroAtualizado) {
 
 function excluirRegistro($dados, $indice)
 {
+<<<<<<< HEAD
     if (isset($dados[$indice])) {
         array_splice($dados, $indice, 1);
         $dados = array_values($dados);
@@ -35,6 +39,9 @@ function excluirRegistro($dados, $indice)
             $row['id'] = $index;
         }
     }
+=======
+    array_splice($dados, $indice, 1);
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
     return $dados;
 }
 
@@ -71,10 +78,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Editar registro
+<<<<<<< HEAD
     if (isset($_POST["indice_editar"])) {
         $indice = isset($_POST["indice_editar"]) ? intval($_POST["indice_editar"]) : -1;
         $registroAtualizado = array(
             "id" => isset($_POST["indice_editar"]) ? $_POST["indice_editar"] : null,
+=======
+    if (isset($_POST["editar"])) {
+        $indice = isset($_POST["id"]) ? intval($_POST["id"]) : -1;
+        $registroAtualizado = array(
+            "id" => isset($_POST["id"]) ? $_POST["id"] : null,
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
             "data" => isset($_POST["data"]) ? $_POST["data"] : null,
             "nome" => isset($_POST["nome"]) ? $_POST["nome"] : null,
             "sexo" => isset($_POST["sexo"]) ? $_POST["sexo"] : null,
@@ -98,6 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Excluir registro
     if (isset($_POST["excluir"])) {
+<<<<<<< HEAD
         $indiceExcluir = isset($_POST["excluir"]) ? intval($_POST["excluir"]) : -1;
         if (isset($dados[$indiceExcluir])) {
             unset($dados[$indiceExcluir]);
@@ -106,15 +121,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $row['id'] = $index;
             }
         }
+=======
+        $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+        $registrosPorPagina = 30;
+        $indiceNaNavegacao = $_POST["indice"] + 1;
+        $indiceReal = ($paginaAtual - 1) * $registrosPorPagina + $indiceNaNavegacao - 1;
+        $dados = excluirRegistro($dados, $indiceReal);
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
     }
 
     // Adicionar linha em branco
     if (isset($_POST["adicionar"])) {
+<<<<<<< HEAD
         $indice = $_POST["adicionar"] + 1;
         $indiceAdicionar = isset($_POST["adicionar"]) ? intval($_POST["adicionar"]) : -1;
         $dados = array_values($dados);
         $novoRegistroEmBranco = array(
             "id" => $indice,
+=======
+        $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+        $registrosPorPagina = 30;
+        $indiceNaNavegacao = $_POST["indice"] + 1;
+        $indiceReal = ($paginaAtual - 1) * $registrosPorPagina + $indiceNaNavegacao;
+        $novoRegistroEmBranco = array(
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
             "data" => "",
             "nome" => "",
             "sexo" => "",
@@ -135,10 +165,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         array_splice($dados, $indiceReal, 0, array($novoRegistroEmBranco));
     }
     escreverArquivoJson($arquivoJson, $dados);
+<<<<<<< HEAD
     foreach ($dados as $index => &$row) {
         $row['id'] = $index;
     }
     exit();
+=======
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
 }
 
 // Ler dados para exibição
@@ -180,8 +213,12 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
     <div id="layoutSidenav">
         <div id="layoutSidenav_content">
             <main>
+<<<<<<< HEAD
                 <!-- <div class="container-fluid px-4 exclude-ajax"> -->
                 <div class="container-fluid px-4">
+=======
+                <div class="container-fluid px-4 exclude-ajax">
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                     <h1 class="mt-4">Dashboard Hospital</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">Editor</li>
@@ -261,7 +298,10 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
                                         </tr>
                                     </table>
                                     <input type="hidden" id="indice_editar" name="indice_editar" value="">
+<<<<<<< HEAD
                                     <input type="hidden" id="indice_excluir" name="indice_excluir" value="">
+=======
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                                 </form>
                             </div>
                         </div>
@@ -297,6 +337,7 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
 
         $(document).on('click', '.editar-btn', function () {
             var table = $('#dataTable').DataTable();
+<<<<<<< HEAD
             var $row = $(this).closest('tr');
             var idValue = table.cell({ row: $row.index(), column: 0 }).data();
             var realIndex = table.row($row).index();
@@ -317,6 +358,14 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
             var $row = $(this).closest('tr');
             var realIndex = table.row($row).index();
             adicionar(realIndex);
+=======
+            var rowIndex = $(this).closest('tr').index();
+            var realIndex = table.row(rowIndex).index();
+            var idValue = table.cell(realIndex, 'id:name').data();
+
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            preencherCamposEditar(realIndex);
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
         });
 
         $(document).on('click', '#salvar', function () {
@@ -324,6 +373,7 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
         });
 
         $(document).on('click', '#editar', function () {
+<<<<<<< HEAD
             var editarValue = $(this).val();
             var idValue = parseInt(editarValue);
             if (!isNaN(idValue)) {
@@ -331,6 +381,14 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
             } else {
                 console.error("Valor inválido para o ID");
             }
+=======
+            var table = $('#dataTable').DataTable();
+            var rowIndex = $(this).closest('tr').index();
+            var rowData = table.row(rowIndex).data();
+            var idValue = rowData.id;
+            // console.log("ID da linha a ser editada: ", idValue);
+            editar(idValue);
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
         });
 
         $(document).on('click', '#cancelar', function () {
@@ -346,32 +404,52 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
                 data: $('#dadosForm').serialize(),
                 success: function (response) {
                     // alert('Salvo com sucesso!');
+<<<<<<< HEAD
                     // displayNotification('Salvo com sucesso!');
+=======
+                    displayNotification('Salvo com sucesso!');
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                     $('#content').html(response);
                 },
                 error: function (xhr, status, error) {
                     console.error('Erro ao enviar dados:', status, error);
                     displayNotification('Erro ao enviar dados');
                 }
+<<<<<<< HEAD
             }).done(function () {
                 displayNotification('Salvo com sucesso!');
+=======
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
             });
         }
 
         function editar(indice) {
+<<<<<<< HEAD
+=======
+            $('#dadosForm').append('<input type="hidden" name="editar" value="Editar">');
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
             $('#dadosForm').append('<input type="hidden" name="indice_editar" value="' + indice + '">');
             $.ajax({
                 url: 'includes/editor.php',
                 type: 'POST',
                 data: $('#dadosForm').serialize(),
                 success: function (response) {
+<<<<<<< HEAD
                     // displayNotification('Editado com sucesso!');
                     $('#content').html(response);
                     $('#editar').val('Editar');
+=======
+                    // eval(response);
+                    $('#dataTable').DataTable().destroy();
+                    populateDataTable(dados);
+                    displayNotification('Editado com sucesso!');
+                    // $('#content').html(response);
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                 },
                 error: function (xhr, status, error) {
                     console.error('Erro ao executar ação de edição:', status, error);
                 }
+<<<<<<< HEAD
             }).done(function () {
                 displayNotification('Editado com sucesso!');
             });
@@ -413,22 +491,33 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
                 }
             }).done(function () {
                 displayNotification('Excluído com sucesso!');
+=======
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
             });
         }
 
         function cancelar() {
             $('#salvar').show();
             $('#editar, #cancelar').hide();
+<<<<<<< HEAD
             $('#editar').val('Editar');
+=======
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
             $('#dadosForm')[0].reset();
         }
 
         function preencherCamposEditar(idValue) {
             var table = $('#dataTable').DataTable();
+<<<<<<< HEAD
             var dados = table.rows({ order: 'current' }).data().toArray();
             var registro = dados.find(function (id) {
                 return id.id == idValue;
             });
+=======
+            var dados = table.rows({ order: 'current' }).data();
+            var registro = dados[idValue];
+
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
             $('#data').val(registro.data);
             $('#nome').val(registro.nome);
             $('#sexo').val(registro.sexo);
@@ -445,10 +534,18 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
             $('#cotificacoes').val(registro.cotificacoes);
             $('#data_de_atualizacao').val(registro.data_de_atualizacao);
             $('#status').val(registro.status);
+<<<<<<< HEAD
+=======
+            // $('#id').val(registro.idValue);
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
 
             $('#salvar').hide();
             $('#editar, #cancelar').show();
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
         
         function formatarData(input) {
             var value = input.value.trim();
@@ -471,11 +568,23 @@ $registrosPagina = array_slice($dados, $indiceInicio, $registrosPorPagina);
 
         function displayNotification(message) {
             mdtoast(message, {
+<<<<<<< HEAD
                 duration: 2500,
+=======
+                duration: 3000,
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                 type: mdtoast.INFO,
                 interaction: false
             });
         }
     </script>
+<<<<<<< HEAD
+=======
+    <?php
+    // if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["editar"])) {
+    //     echo '<script>preencherCamposEditar(' . $_POST["indice"] . ')</script>';
+    // }
+    ?>
+>>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
 </body>
 </html>
