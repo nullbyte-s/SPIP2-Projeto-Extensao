@@ -12,4 +12,4 @@
 
 - Estilos aplicados à página do editor.php.
 
-- (Em desenvolvimento) Navegação avançada para edição dos dados. Enquanto a migração para a versão completa do editor não é finalizada, o editor legado ficará na raiz do projeto, para facilitar eventuais testes.
+- Navegação avançada para edição dos dados.

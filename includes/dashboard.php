@@ -7,7 +7,6 @@
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
                 <div class="row">
-<<<<<<< HEAD
                     <div class="col-sm-8 pt-1 pt-md-0">
                         <div class="card shadow-sm">
                             <div class="card-header border-primary text-primary"><i class="bi bi-info-circle"></i>&nbsp;Informações gerais</div>
@@ -87,10 +86,6 @@
                     <div class="row pt-4"></div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4 shadow-sm">
-=======
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
->>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                             <div class="card-body">Primary Card</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="#">View Details</a>
@@ -99,11 +94,7 @@
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
-<<<<<<< HEAD
                         <div class="card bg-warning text-white mb-4 shadow-sm">
-=======
-                        <div class="card bg-warning text-white mb-4">
->>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                             <div class="card-body">Warning Card</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="#">View Details</a>
@@ -112,11 +103,7 @@
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
-<<<<<<< HEAD
                         <div class="card bg-success text-white mb-4 shadow-sm">
-=======
-                        <div class="card bg-success text-white mb-4">
->>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                             <div class="card-body">Success Card</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="#">View Details</a>
@@ -125,11 +112,7 @@
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
-<<<<<<< HEAD
                         <div class="card bg-danger text-white mb-4 shadow-sm">
-=======
-                        <div class="card bg-danger text-white mb-4">
->>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                             <div class="card-body">Danger Card</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="#">View Details</a>
@@ -140,11 +123,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xl-6">
-<<<<<<< HEAD
                         <div class="card mb-4 shadow-sm">
-=======
-                        <div class="card mb-4">
->>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                             <div class="card-header">
                                 <i class="fas fa-chart-area me-1"></i>
                                 Area Chart Example
@@ -153,11 +132,7 @@
                         </div>
                     </div>
                     <div class="col-xl-6">
-<<<<<<< HEAD
                         <div class="card mb-4 shadow-sm">
-=======
-                        <div class="card mb-4">
->>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                             <div class="card-header">
                                 <i class="fas fa-chart-bar me-1"></i>
                                 Bar Chart Example
@@ -166,11 +141,7 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
                 <div class="card mt-5 shadow-sm">
-=======
-                <div class="card mt-5">
->>>>>>> 6fbeee5127afad50395df9c4ad42f710a0b8411d
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
                         Tabela de Dados
