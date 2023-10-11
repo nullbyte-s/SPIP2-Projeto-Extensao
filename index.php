@@ -34,17 +34,19 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
     <meta name="msapplication-TileColor" content="#b91d47">
     <meta name="theme-color" content="#b91d47">
     <link rel="icon" href="assets/img/health-vaccine-svgrepo-com.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css">
+    <link rel="stylesheet" href="css/style.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/bootstrap-5.3.2.min.css">
     <link rel="stylesheet" href="css/bootstrap-icons-1.11.1.css">
     <link rel="stylesheet" href="css/mdtoast.min.css?v=2.0.2">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="js/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/dataTables.bootstrap5.min.js"></script>
+    <script src="js/fontawesome-all.js"></script>
     <script src="js/moment.min.js"></script>
+    <script src="js/charts_loader.js"></script>
 
     <title>Dashboard Hospital</title>
 
@@ -174,6 +176,7 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
 <body onload="preload()">
 <noscript style="z-index: 99999!important; position: absolute; top: 0; width: 98%; padding: 3%;"><div class="alert alert-danger" role="alert">Essa Aplicação Web <b>requer</b> que o JavaScript esteja habilitado para funcionar corretamente.</div></noscript>
 
+<!-- Alternador de tema -->
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
   <symbol id="check2" viewBox="0 0 16 16">
     <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"></path>
@@ -221,54 +224,54 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
 
 <div class="preload-screen"></div>
 
-<body class="sb-nav-fixed">
-  <nav class="sb-topnav navbar navbar-expand navbar-success bg-success">
+<div class="sb-nav-fixed">
+  <nav class="sb-topnav navbar navbar-expand navbar-info bg-primary">
       <a class="navbar-brand ps-2 text-light exclude-ajax" href="index.php">💉 Dashboard Hospital</a>
-      <button class="btn btn-link btn-sm btn-secondary order-1 order-lg-0 me-4 me-lg-0<?php if(!$auth){ echo " hidden"; } ?>" id="sidebarToggle" href="#!"><i
+      <button class="btn btn-link btn-sm btn-primary order-1 order-lg-0 me-4 me-lg-0<?php if(!$auth){ echo " hidden"; } ?>" id="sidebarToggle" href="#!"><i
               class="fas fa-bars text-warning"></i></button>
   </nav>
 
-    <div class="container">
-        <div class="row<?php if(!$auth){ echo " hidden"; } ?>" id="dashboard">
-          <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav class="alert alert-warning border-0 sb-sidenav accordion text-success" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu"> 
-                        <div class="nav nav-pills">
-                            <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed exclude-ajax" href="#" data-bs-toggle="collapse"
-                                data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                                data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="includes/dashboard.php">Gráficos</a>
-                                    <a class="nav-link" href="includes/summary.html">Relatório</a>
-                                </nav>
-                            </div>
-                            <div class="sb-sidenav-menu-heading">Configurações</div>
-                            <a class="nav-link" href="includes/editor.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Editar tabela
-                            </a>
-                            <button type="button" onclick="logout()" class="nav-link">
-                                <div class="sb-nav-link-icon"><i class="fas fa-sign-out"></i></div>
-                                Sair
-                            </button>
-                        </div>
-                    </div>
-                </nav>
+    <!--Barra de navegação lateral-->
+  <div class="container">
+    <div class="row<?php if(!$auth){ echo " hidden"; } ?>" id="dashboard">
+      <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+          <nav class="alert alert-warning border-0 sb-sidenav accordion text-success" id="sidenavAccordion">
+            <div class="sb-sidenav-menu"> 
+              <div class="nav nav-pills">
+                <div class="sb-sidenav-menu-heading">Interface</div>
+                <a class="nav-link collapsed exclude-ajax" href="#" data-bs-toggle="collapse"
+                    data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Dashboard
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                    data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="includes/dashboard.php">Gráficos</a>
+                        <a class="nav-link" href="includes/summary.html">Relatório</a>
+                    </nav>
+                </div>
+                <div class="sb-sidenav-menu-heading">Configurações</div>
+                <a class="nav-link" href="includes/editor.php">
+                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    Editar tabela
+                </a>
+                <button type="button" onclick="logout()" class="nav-link">
+                    <div class="sb-nav-link-icon"><i class="fas fa-sign-out"></i></div>
+                    Sair
+                </button>
+              </div>
             </div>
-          </div>
-          <div id="content"></div>
-          <?php //include 'includes/dashboard.php'; ?>
+          </nav>
         </div>
+      </div>
+      <div id="content"></div>
+        <?php //include 'includes/dashboard.php'; ?>
     </div>
 
-    <!-- Login Modal -->
+    <!--Modal de Login -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -290,17 +293,14 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
         </div>
     </div>
 
-    <script src="js/scripts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
-    <script src="js/bootstrap-5.3.2.bundle.min.js"></script>
-    <script src="js/Chart-2.9.3.min.js"></script>
-    <script src="js/mdtoast.min.js?v=2.0.2"></script>
-    <script src="js/radialIndicator-2.0.0.min.js"></script>
-    <script src="js/main.js?v=1.1.0"></script>
-    <script src="js/ajax.js"></script>
-    <script src="js/ajax-index-empty.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+    <script type="text/javascript" src="js/bootstrap-5.3.2.bundle.min.js"></script>
+    <script type="text/javascript" src="js/mdtoast.min.js?v=2.0.2"></script>
+    <script type="text/javascript" src="js/radialIndicator-2.0.0.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/ajax.js"></script>
+    <script type="text/javascript" src="js/ajax-index-empty.js"></script>
+    <script type="text/javascript" src="js/leaflet.js"></script>
     
 </body>
 

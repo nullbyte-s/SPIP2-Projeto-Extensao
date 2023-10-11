@@ -56,24 +56,6 @@ function logout() {
   deleteCookie("login_dashbauth");
 }
 
-Chart.defaults.global.legend.display = false;
-
-function addData(chart, label, data) {
-  chart.data.labels.push(label);
-  chart.data.datasets.forEach((dataset) => {
-    dataset.data.push(data);
-  });
-  chart.update();
-}
-
-function removeData(chart) {
-  chart.data.labels.pop();
-  chart.data.datasets.forEach((dataset) => {
-    dataset.data.pop();
-  });
-  chart.update();
-}
-
 function updatedb() {
   var vReq = new ntwReq("backend/auth.php", function (data) {
     var result = JSON.parse(data.responseText);
@@ -95,6 +77,7 @@ $('#staticBackdrop').on('hidden.bs.modal', function (e) {
   $("#lpwd").val("").removeClass("is-valid is-invalid");
   $("#lbtn").html("Login").addClass("btn-primary").removeClass("btn-success");
 });
+
 function loginToServer() {
   var value = $("#lpwd").val();
   if (value.length == 0) { $("#lpwd").addClass("is-invalid"); return; }

@@ -1,11 +1,10 @@
-
 $(document).ready(function () {
 	$.ajax({
 		url: 'backend/get_data.php',
 		type: 'GET',
 		dataType: 'json',
 		success: function (data) {
-			console.log(data);
+			// console.log(data);
 			populateDataTable(data);
 		},
 		error: function (xhr, status, error) {
@@ -23,6 +22,7 @@ $(document).ready(function () {
 
 		var table = $('#dataTable').DataTable({
 			// autoWidth: false,
+			paging: true,
 			language: {
 				"sEmptyTable": "Nenhum dado encontrado",
 				"sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -147,9 +147,11 @@ $(document).ready(function () {
 			detailsHtml += '<strong>Data dos Sintomas:</strong> ' + rowData.data_sintomas + '<br>';
 			detailsHtml += '<strong>Exames:</strong> ' + rowData.exames + '<br>';
 			detailsHtml += '<strong>Hipótese Diagnóstica:</strong> ' + rowData.hipotese_diagnostica + '<br>';
-			detailsHtml += '<strong>Cotificações:</strong> ' + (rowData.cotificacoes ? 'Sim' : 'Não') + '<br>';
+			// detailsHtml += '<strong>Cotificações:</strong> ' + (rowData.cotificacoes ? 'Sim' : 'Não') + '<br>';
+			detailsHtml += '<strong>Cotificações:</strong> ' + rowData.cotificacoes + '<br>';
 			detailsHtml += '<strong>Data de Atualização:</strong> ' + rowData.data_de_atualizacao + '<br>';
-			detailsHtml += '<strong>Status:</strong> ' + (rowData.status ? 'Sim' : 'Não') + '<br>';
+			// detailsHtml += '<strong>Status:</strong> ' + (rowData.status ? 'Sim' : 'Não') + '<br>';
+			detailsHtml += '<strong>Status:</strong> ' + rowData.status + '<br>';
 			detailsHtml += '</div>';
 
 			this.child(detailsHtml).hide();

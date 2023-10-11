@@ -281,7 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </footer>
         </div>
     </div>
-    <script src="js/tables-editor.js"></script>
+    <script src="js/table-editor.js"></script>
     <script>
 
         $(document).on('click', '.editar-btn', function () {

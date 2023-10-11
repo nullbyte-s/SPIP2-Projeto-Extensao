@@ -125,10 +125,10 @@
                     <div class="col-xl-6">
                         <div class="card mb-4 shadow-sm">
                             <div class="card-header">
-                                <i class="fas fa-chart-area me-1"></i>
-                                Area Chart Example
+                                <i class="fas fa-map me-1"></i>
+                                Pacientes por Município
                             </div>
-                            <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                            <div class="card-body text-center" width="100%" height="100%" id="markerGeoChart"><canvas></canvas></div>
                         </div>
                     </div>
                     <div class="col-xl-6">
@@ -168,6 +168,5 @@
         </footer>
     </div>
 </div>
-<script src="assets/demo/chart-area-demo.js"></script>
-<script src="assets/demo/chart-bar-demo.js"></script>
-<script src="js/tables.js"></script>
+<script type="text/javascript" src="js/table.js"></script>
+<script type="text/javascript" src="js/markerGeoChart.js"></script>

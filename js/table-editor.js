@@ -13,6 +13,7 @@ function populateDataTable(data) {
 
 	var table = $('#dataTable').DataTable({
 		// autoWidth: false,
+		paging: true,
 		language: {
 			"sEmptyTable": "Nenhum dado encontrado",
 			"sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -104,7 +105,7 @@ function populateDataTable(data) {
 		],
 	});
 	// table.rows.add(data).draw();
-	table.order([2, 'desc']).draw();
+	table.order([1, 'desc']).draw();
 	$('.expandable').click(function () {
 		var content = $(this).attr('title');
 		$(this).html(content);
