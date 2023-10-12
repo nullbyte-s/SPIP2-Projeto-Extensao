@@ -431,7 +431,7 @@ body, .mdtoast{
   </div>
 </div>
 
-<script src="js/jquery-3.5.1.min.js"></script>
+<script src="js/jquery-3.6.4.min.js"></script>
 <script src="js/bootstrap-5.3.2.bundle.min.js"></script>
 <script>
 
@@ -719,7 +719,7 @@ animationSelect.addEventListener('change',()=>{
                   displayNotification(xhr.responseText);
                   setTimeout(function() {
                       window.location.reload();
-                  }, 4000);
+                  }, 1000);
               } else {
                   console.error('Erro na solicitação. Código do status: ' + xhr.status);
               }
