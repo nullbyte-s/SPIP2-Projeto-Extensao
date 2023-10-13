@@ -254,9 +254,13 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
                     </nav>
                 </div>
                 <div class="sb-sidenav-menu-heading">Configurações</div>
-                <a class="nav-link" href="includes/editor.php">
+                <a class="nav-link" href="includes/editor_v1.php">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                    Editar tabela
+                    Editor (CRUD) v1
+                </a>
+                <a class="nav-link" href="includes/editor_v2.php">
+                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    Editor (CRUD) v2
                 </a>
                 <button type="button" onclick="logout()" class="nav-link">
                     <div class="sb-nav-link-icon"><i class="fas fa-sign-out"></i></div>

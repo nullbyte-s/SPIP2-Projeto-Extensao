@@ -196,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <td><input type="text" name="sexo" id="sexo" class="form-field" required></td>
 
                                             <td><label for="idade">Idade:</label></td>
-                                            <td><input type="text" name="idade" id="idade" class="form-field" required></td>
+                                            <td><input type="number" name="idade" id="idade" class="form-field" required></td>
                                         </tr>
                                         <tr>
                                             <td><label for="municipio">Município:</label></td>
@@ -404,7 +404,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     console.error('Erro ao executar ação de exclusão:', status, error);
                 }
             }).done(function () {
-                displayNotification('Nova linha adicionada - id: ', indice);
+                // displayNotification('Nova linha adicionada - id: ', indice);
+				displayNotification('Nova linha adicionada');
             });
         }
 
