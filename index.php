@@ -19,7 +19,7 @@ if(!isset($_SESSION["setup"])){
 $path=$_SERVER['SCRIPT_FILENAME'];
 $fol=substr($path, 0, -9);
 
-$passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ? "***notdefault***" : '';
+$passVal = ($config->get("general.pass")!=='c21f969b5f03d33d43e04f8f136e7682') ? "***notdefault***" : '';
 
 ?>
 <!DOCTYPE html>
@@ -254,7 +254,7 @@ $passVal = ($config->get("general.pass")!=='63a9f0ea7bb98050796b649e85481845') ?
                     </nav>
                 </div>
                 <div class="sb-sidenav-menu-heading">Configurações</div>
-                <a class="nav-link" href="includes/editor_v1.php">
+                <a class="nav-link" href="includes/editor.php">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Editor (CRUD) v1
                 </a>

@@ -26,37 +26,53 @@
             break;
 
         case 'GET':
-            
             // Lógica para tratamento de requisição GET
             if (isset($_GET['amount']) && $_GET['amount'] != "") {
                 $amount = $_GET['amount'];
-                response($amount, $json_content);
-
+        
+                // Converte o conteúdo JSON para um array PHP
+                $data = json_decode($json_content, true);
+        
+                // Obtém os IDs do array de dados
+                $ids = array_column($data, 'id');
+        
+                // Obtém startID e endID do formulário
+                $startID = isset($_GET['startID']) ? intval($_GET['startID']) : min($ids);
+                $endID = isset($_GET['endID']) ? intval($_GET['endID']) : max($ids);
+        
+                // Se startID for maior que endID, troca os valores
+                if ($startID > $endID) {
+                    $temp = $startID;
+                    $startID = $endID;
+                    $endID = $temp;
+                }
+        
+                response($amount, $json_content, $startID, $endID);
+        
                 // Se tudo estiver OK, retorna um código de status 200 (OK)
                 http_response_code(200);
             } else {
                 // Se os dados estiverem ausentes ou incorretos, retorna um código de status 400 (Bad Request)
                 http_response_code(400);
             }
-            break;
-
-        default:
-            // Se o método da requisição não for POST nem GET, retorna um código de status 405 (Method Not Allowed)
-            http_response_code(405);
-
-            break;
+            break;           
     }
 
     // Resposta da API para o cliente no método GET
-    function response($amount, $json_content){ // Antes: $amount = 10, atribuída nos parênteses; afeta alguma lógica do código?
-
-        // Converte o conteúdo JSON para um objeto PHP
+    function response($amount, $json_content, $startID, $endID) {
+        // Converte o conteúdo JSON para um array PHP
         $data = json_decode($json_content, true);
 
         // Verifica se a decodificação JSON foi bem-sucedida
         if ($data !== null) {
-            // Extrai os primeiros $amount blocos de dados
-            $result = array_slice($data, 0, $amount);
+            // Filtra os dados com base na faixa de IDs
+            $filteredData = array_filter($data, function ($item) use ($startID, $endID) {
+                $id = $item['id'];
+                return $id >= $startID && $id <= $endID;
+            });
+
+            // Extrai os primeiros $amount blocos de dados da faixa filtrada
+            $result = array_slice($filteredData, 0, $amount);
 
             // Retorna os dados como JSON
             $json_response = json_encode($result, JSON_UNESCAPED_UNICODE); // JSON_UNESCAPED_UNICODE preserva os caracteres especiais
@@ -67,44 +83,34 @@
     }
 
     // Coloca os dados no DB provisório, em JSON
-    function postInDB($data, $json_content) { // INCOMPLETO, precisa ser corrigido
-    
+    function postInDB($data, $json_content) {
+        // Caminho para o arquivo JSON
+        $json_file_path = "../db/dados.json";
+        
         // Converte o conteúdo JSON para um array PHP
         $database = json_decode($json_content, true);
-    
+
         // Obtém o último ID existente e incrementa +1
         $ultimoID = end($database)['id'];
         $novoID = $ultimoID + 1;
-    
+
+        // Converte $data para array associativo, se necessário
+        $data = is_array($data) ? $data : (array)$data;
+
         // Atribui o novo ID aos dados
         $data['id'] = $novoID;
-    
+
         // Adiciona os novos dados ao array
         $database[] = $data;
-    
+
         // Codifica o array de volta para JSON
         $json_response = json_encode($database, JSON_UNESCAPED_UNICODE);
-    
+
         // Escreve o JSON resultante de volta no arquivo
         file_put_contents($json_file_path, $json_response);
-    
-        // Remove o "echo" quando o código para passar para o banco de dados estiver pronto
-        // echo $json_response;
-        // return $json_response;
-        // die();
+        
+        // Retorna o novo ID e os dados adicionados, se necessário
+        echo json_encode(['id' => $novoID, 'data' => $data]);
     }
-
-    //     //TODO colocar código para colocar o JSON "data" junto do bando de dados (JSON)
-
-    //     //teste de atribuição de variável através do objeto JSON em PHP
-    //     //$amount = $data->amount;
-
-    //     //lista para colocar as variaveis juntas e transformar em JSON mais fácil depois
-    //     //$response['amount'] = $amount;
-
-    //     //TODO ? transforma os dados em JSON, pode-se transformar diretamente e colocar no banco de dados, não sei se funciona
-    //     $json_response = json_encode($data);
-
-    //     //TODO retirar o "echo" quando fizer o código de passar pro bando de dados (JSON) pois é um POST e não precisa enviar dados
-    //     echo $json_response;
+    
 ?>

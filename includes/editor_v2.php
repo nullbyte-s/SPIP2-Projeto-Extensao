@@ -71,6 +71,10 @@ echo  "<script>alert('Em desenvolvimento...');</script>";
                 </tr>
                 <tr>
                     <td colspan="4">
+                        <label for="startID">ID inicial:</label>
+                        <input type="number" id="startID" name="startID" placeholder="ID inicial">
+                        <label for="endID">ID final:</label>
+                        <input type="number" id="endID" name="endID" placeholder="ID final">
                         <label for="quantidade">Listar:</label>
                         <input type="text" id="quantidade" name="quantidade" placeholder="Quantidade" required>
                         <button type="button" onclick="listarDados()">Listar</button>
@@ -85,76 +89,96 @@ echo  "<script>alert('Em desenvolvimento...');</script>";
         function adicionarDados() {
             // Obtém os dados do formulário
             var formData = {
-                // id: document.getElementById('id').value,
+                // id: document.getElementById('id').value, // Se o ID for gerado automaticamente, não precisa ser especificado aqui
                 data: document.getElementById('data').value,
-                data: document.getElementById('nome').value,
-                data: document.getElementById('sexo').value,
-                data: document.getElementById('idade').value,
-                data: document.getElementById('municipio').value,
-                data: document.getElementById('sintomas').value,
-                data: document.getElementById('comorbidades').value,
-                data: document.getElementById('vacina').value,
-                data: document.getElementById('leito').value,
-                data: document.getElementById('evolucao').value,
-                data: document.getElementById('data_sintomas').value,
-                data: document.getElementById('exames').value,
-                data: document.getElementById('hipotese_diagnostica').value,
-                data: document.getElementById('cotificacoes').value,
-                data: document.getElementById('data_de_atualizacao').value,
-                data: document.getElementById('status').value
+                nome: document.getElementById('nome').value,
+                sexo: document.getElementById('sexo').value,
+                idade: document.getElementById('idade').value,
+                municipio: document.getElementById('municipio').value,
+                sintomas: document.getElementById('sintomas').value,
+                comorbidades: document.getElementById('comorbidades').value,
+                vacina: document.getElementById('vacina').value,
+                leito: document.getElementById('leito').value,
+                evolucao: document.getElementById('evolucao').value,
+                data_sintomas: document.getElementById('data_sintomas').value,
+                exames: document.getElementById('exames').value,
+                hipotese_diagnostica: document.getElementById('hipotese_diagnostica').value,
+                cotificacoes: document.getElementById('cotificacoes').value,
+                data_de_atualizacao: document.getElementById('data_de_atualizacao').value,
+                status: document.getElementById('status').value
             };
 
-            // Faz a requisição POST para adicionar dados
-            fetch('backend/api.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Lida com a resposta, se necessário
-                console.log(data);
-                console.log(JSON.stringify(data));
-                // listarDados();
-            });
+        // Faz a requisição POST para adicionar dados
+        fetch('backend/api.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            // Verifica se a resposta tem um corpo antes de tentar parsear o JSON
+            if (response.ok && response.status !== 204) {
+                return response.json();
+            } else {
+                return Promise.reject('Nenhum conteúdo');
+            }
+        })
+        .then(data => {
+            // Lida com a resposta, se necessário
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Erro ao processar a resposta:', error);
+        });
         }
 
         function listarDados() {
-            // Obtém a quantidade do formulário
-            var quantidade = document.getElementById('quantidade').value;
+        // Obtém a quantidade do formulário
+        var quantidade = document.getElementById('quantidade').value;
 
-            // Faz a requisição GET para listar dados
-            fetch('backend/api.php?amount=' + quantidade)
-            .then(response => response.json())
-            .then(data => {
-                // Lida com a resposta, se necessário
-                console.log(data);
+        // Obtém startID e endID do formulário
+        var startID = document.getElementById('startID').value;
+        var endID = document.getElementById('endID').value;
 
-                // Atualiza a <div id="list"> com a listagem
-                var listDiv = document.getElementById('list');
-                listDiv.innerHTML = '<h3>Listagem:</h3>';
-                
-                if (data.length > 0) {
-                    // Cria uma lista não ordenada para exibir os dados
-                    var ul = document.createElement('ul');
-                    
-                    // Itera sobre os dados e adiciona itens à lista
-                    data.forEach(item => {
-                        var li = document.createElement('li');
-                        li.textContent = JSON.stringify(item);
-                        ul.appendChild(li);
-                    });
-
-                    // Adiciona a lista à <div id="list">
-                    listDiv.appendChild(ul);
-                } else {
-                    // Se não houver dados, exibe uma mensagem
-                    listDiv.innerHTML += '<p>Nenhum dado disponível.</p>';
-                }
-            });
+        // Se os campos não forem preenchidos, use o primeiro e último IDs do JSON
+        if (!startID || !endID) {
+            // Os valores padrão agora são obtidos da coluna ID do JSON
+            startID = 1;  
+            endID = 100;  
         }
+
+        // Faz a requisição GET para listar dados na faixa de IDs especificada
+        fetch('backend/api.php?amount=' + quantidade + '&startID=' + startID + '&endID=' + endID)
+        .then(response => response.json())
+        .then(data => {
+            // Lida com a resposta, se necessário
+            console.log(data);
+
+            // Atualiza a <div id="list"> com a listagem
+            var listDiv = document.getElementById('list');
+            listDiv.innerHTML = '<h3>Listagem:</h3>';
+            
+            if (data.length > 0) {
+                // Cria uma lista não ordenada para exibir os dados
+                var ul = document.createElement('ul');
+                
+                // Itera sobre os dados e adiciona itens à lista
+                data.forEach(item => {
+                    var li = document.createElement('li');
+                    li.textContent = JSON.stringify(item);
+                    ul.appendChild(li);
+                });
+
+                // Adiciona a lista à <div id="list">
+                listDiv.appendChild(ul);
+            } else {
+                // Se não houver dados, exibe uma mensagem
+                listDiv.innerHTML += '<p>Nenhum dado disponível.</p>';
+            }
+        });
+    }
+
     </script>
 </body>
 </html>
