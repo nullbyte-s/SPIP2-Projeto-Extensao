@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Conversor XLSX para JSON</title>
+</head>
+
+<body>
+
+    <div style="margin-top: 100px; align-items: center; text-align: center; justify-content: center;">
+        <h2>Conversor</h2>
+        <h4>XLSX para JSON</h4>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <form style="margin-top: 10px;" action="backend/conversor.php" method="post" enctype="multipart/form-data">
+                <label class="custom-file-upload">
+                    <input type="file" class="file" name="file" id="file" accept=".xlsx" required>
+                    <span class="button__text">Enviar</span>
+                    <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"
+                            stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"
+                            height="24" fill="none" class="svg">
+                            <line y2="19" y1="5" x2="12" x1="12"></line>
+                            <line y2="12" y1="12" x2="19" x1="5"></line>
+                        </svg></span>
+                    </input>
+                </label>
+                <br>
+                <button type="submit">Converter</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

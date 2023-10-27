@@ -262,6 +262,10 @@ $passVal = ($config->get("general.pass")!=='c21f969b5f03d33d43e04f8f136e7682') ?
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Editor (CRUD) v2
                 </a>
+                <a class="nav-link" href="includes/conversor.html">
+                    <div class="sb-nav-link-icon"><i class="bi bi-pc-display"></i></div>
+                    Conversor
+                </a>
                 <button type="button" onclick="logout()" class="nav-link">
                     <div class="sb-nav-link-icon"><i class="fas fa-sign-out"></i></div>
                     Sair
