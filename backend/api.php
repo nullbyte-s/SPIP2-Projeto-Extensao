@@ -1,7 +1,14 @@
 <?php
 
-    $json_file_path = "../db/dados.json";
-    $json_content = file_get_contents($json_file_path, false, stream_context_create(['http' => ['header' => 'Accept-Charset: UTF-8']]));
+    // $json_file_path = "../db/dados.json";
+    // $json_content = file_get_contents($json_file_path, false, stream_context_create(['http' => ['header' => 'Accept-Charset: UTF-8']]));
+
+    // Caminho para o arquivo JSON
+    $anoAtual = date("Y");
+    $json_file_path = "../db/dados_$anoAtual.json";
+    
+    // Obtém o conteúdo atual do arquivo, se existir
+    $json_content = file_exists($json_file_path) ? file_get_contents($json_file_path, false, stream_context_create(['http' => ['header' => 'Accept-Charset: UTF-8']])) : '[]';
 
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'POST':
@@ -14,8 +21,13 @@
             // Verifica se a decodificação JSON foi bem-sucedida
             if ($data !== null) {
 
+                // // Verifica se a rota é específica para a função addToDB
+                // if (isset($_GET['action']) && $_GET['action'] === 'addToDB') {
+                //     addToDB($data);
+                // }
+
                 // Lógica para tratar os dados recebidos
-                postInDB($data, $json_content);
+                postInDB($data);
 
                 // Se tudo estiver OK, retorna um código de status 200 (OK)
                 http_response_code(200);
@@ -82,35 +94,59 @@
         }
     }
 
-    // Coloca os dados no DB provisório, em JSON
-    function postInDB($data, $json_content) {
+    function generateDB($data) {
         // Caminho para o arquivo JSON
-        $json_file_path = "../db/dados.json";
-        
-        // Converte o conteúdo JSON para um array PHP
-        $database = json_decode($json_content, true);
-
-        // Obtém o último ID existente e incrementa +1
-        $ultimoID = end($database)['id'];
-        $novoID = $ultimoID + 1;
+        $anoAtual = date("Y");
+        $json_file_path = "../db/dados_$anoAtual.json";
 
         // Converte $data para array associativo, se necessário
         $data = is_array($data) ? $data : (array)$data;
 
-        // Atribui o novo ID aos dados
-        $data['id'] = $novoID;
+        // Obtém o conteúdo atual do arquivo, se existir
+        $json_content = file_exists($json_file_path) ? file_get_contents($json_file_path) : '[]';
+
+        // Converte o conteúdo JSON para um array PHP
+        $database = json_decode($json_content, true);
 
         // Adiciona os novos dados ao array
         $database[] = $data;
 
-        // Codifica o array de volta para JSON
-        $json_response = json_encode($database, JSON_UNESCAPED_UNICODE);
+        // Codifica o array de volta para JSON com formatação legível
+        $json_response = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
-        // Escreve o JSON resultante de volta no arquivo
-        file_put_contents($json_file_path, $json_response);
+        // Escreve o JSON resultante no arquivo, sobrescrevendo o conteúdo existente
+        file_put_contents($json_file_path, $json_response, LOCK_EX);
         
-        // Retorna o novo ID e os dados adicionados, se necessário
-        echo json_encode(['id' => $novoID, 'data' => $data]);
+        // Retorna os dados adicionados, se necessário
+        echo $json_response;
     }
-    
+
+    // Coloca os dados no DB provisório, em JSON
+    function postInDB($data) {
+        // Caminho para o arquivo JSON
+        $anoAtual = date("Y");
+        $json_file_path = "../db/dados_$anoAtual.json";
+
+        // Converte $data para array associativo, se necessário
+        $data = is_array($data) ? $data : (array)$data;
+
+        // Obtém o conteúdo atual do arquivo, se existir
+        $json_content = file_exists($json_file_path) ? file_get_contents($json_file_path) : '[]';
+
+        // Converte o conteúdo JSON para um array PHP
+        $database = json_decode($json_content, true);
+
+        // Adiciona os novos dados ao array
+        $database[] = $data;
+
+        // Codifica o array de volta para JSON com formatação legível
+        $json_response = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+
+        // Escreve o JSON resultante no arquivo, sobrescrevendo o conteúdo existente
+        file_put_contents($json_file_path, $json_response, LOCK_EX);
+        
+        // Retorna os dados adicionados, se necessário
+        echo $json_response;
+    }
+
 ?>

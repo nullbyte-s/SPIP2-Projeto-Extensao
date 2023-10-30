@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="../js/xlsx.full.min.js"></script>
+    <title>Conversor XLSX para JSON</title>
+</head>
+
+<body>
+
+    <div style="margin-top: 100px; align-items: center; text-align: center; justify-content: center;">
+        <h2>Conversor</h2>
+        <h4>XLSX para JSON</h4>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <div style="margin-top: 10px;">
+                <label class="custom-file-upload">
+                    <input type="file" class="file_XLSX" name="file_XLSX" id="file_XLSX" accept=".xlsx" required>
+                    <span class="button__text">Enviar</span>
+                    <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"
+                            stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"
+                            height="24" fill="none" class="svg">
+                            <line y2="19" y1="5" x2="12" x1="12"></line>
+                            <line y2="12" y1="12" x2="19" x1="5"></line>
+                        </svg></span>
+                    </input>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('file_XLSX').addEventListener('change', handleFile);
+
+        function handleFile(event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+
+                    const sheetName = workbook.SheetNames[0];
+                    const sheet = workbook.Sheets[sheetName];
+
+                    const jsonArray = [];
+                    let id = 0;
+
+                    // Itera sobre as linhas, começando da segunda linha (índice 1)
+                    XLSX.utils.sheet_to_json(sheet, { header: 1, range: 1 }).forEach((rowData) => {
+                        if (rowData.some(cellValue => cellValue !== "")) {
+                            const jsonObject = {
+                                "id": id++,
+                                "internacao": formatarData(rowData[0]),
+                                "semana": rowData[1],
+                                "paciente": rowData[2],
+                                "sexo": rowData[3],
+                                "idade": rowData[4],
+                                "municipio": rowData[5],
+                                "estado": rowData[6],
+                                "sintomas": rowData[7],
+                                "data_sintomas": formatarData(rowData[8]),
+                                "comorbidades": rowData[9],
+                                "vacina": rowData[10],
+                                "leito": rowData[11],
+                                "evolucao": rowData[12],
+                                "exames": rowData[13],
+                                "data_exames": formatarData(rowData[14]),
+                                "hipotese_diagnostica": rowData[15],
+                                "agravo": rowData[16],
+                                "data_agravo": formatarData(rowData[17]),
+                                "finalizacao_do_caso": rowData[18],
+                                "data_finalizacao": formatarData(rowData[19]),
+                            };
+
+                            jsonArray.push(jsonObject);
+                        }
+                    });
+
+                    const jsonContent = JSON.stringify(jsonArray, null, 2);
+
+                    // console.log(jsonContent);
+
+                    // Realiza o POST para o backend/api.php?action=postInDB
+                    postToBackend(jsonContent);
+
+                };
+
+                reader.readAsArrayBuffer(file);
+            }
+        }
+
+        function formatarData(data) {
+
+            if (!data || typeof data !== 'number') {
+                return data;
+            }
+
+            if (typeof data === 'number') {
+                const excelDate = new Date((data - (25567 + 1)) * 86400 * 1000);
+                return excelDate.toLocaleDateString('pt-BR');
+            } else {
+                const matches = data.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+
+                if (matches) {
+                    return `${matches[1]}/${matches[2]}/${matches[3]}`;
+                } else {
+                    return data;
+                }
+            }
+        }
+
+        function postToBackend(jsonContent) {
+            const url = 'backend/api.php?action=postInDB';
+
+            // Configuração do request
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: jsonContent,
+            };
+
+            // Realiza o POST usando fetch
+            fetch(url, options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    // return response.text(); // Altera para text para lidar com respostas não JSON
+                    return response.json();
+                })
+                .then(data => {
+                    // Manipula a resposta do backend, se necessário
+                    console.log('POST successful:', data);
+                })
+                .catch(error => {
+                    // Manipula erros durante o POST
+                    console.error('Error during POST:', error.message);
+                });
+        }
+
+    </script>
+
+</body>
+
+</html>

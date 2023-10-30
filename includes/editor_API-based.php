@@ -8,7 +8,7 @@ echo  "<script>alert('Em desenvolvimento...');</script>";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário JSON</title>
+    <title>Editor JSON</title>
 </head>
 <body>
     <div style="margin-top: 100px; align-items: center; text-align: center; justify-content: center;">
@@ -120,6 +120,7 @@ echo  "<script>alert('Em desenvolvimento...');</script>";
             // Verifica se a resposta tem um corpo antes de tentar parsear o JSON
             if (response.ok && response.status !== 204) {
                 return response.json();
+                // return response.text(); // Altera para text para lidar com respostas não JSON
             } else {
                 return Promise.reject('Nenhum conteúdo');
             }
