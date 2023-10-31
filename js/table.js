@@ -12,6 +12,17 @@ $(document).ready(function () {
 		}
 	});
 
+	// Função para formatar datas usando moment.js
+	function tipoData(data, type, row, meta) {
+		if (data && typeof data === 'string') {
+			if (type === 'sort') {
+				return moment(data, 'DD/MM/YYYY').format('YYYY/MM/DD');
+			}
+			return data.trim();
+		}
+		return data;
+	}
+
 	function populateDataTable(data) {
 		if ($.fn.DataTable.isDataTable('#dataTable')) {
 			// 	$('#dataTable').DataTable().destroy();
@@ -61,27 +72,30 @@ $(document).ready(function () {
 				// 		return data;
 				// 	}
 				// },
-				{
-					data: 'data',
-					title: 'Data',
-					// width: '15%',
-					render: function (data, type, row, meta) {
-						if (type === 'sort') {
-							return moment(data, 'DD/MM/YYYY').format('YYYY/MM/DD');
-						}
-						return data;
-					}
-				},
 				// { data: 'nome', title: 'Nome', width: '18%' },
 				// { data: 'sintomas', title: 'Sintomas', width: '30%' },
 				// { data: 'comorbidades', title: 'Comorbidades', width: '15%' },
 				// { data: 'municipio', title: 'Município', width: '12%' },
 				// { data: 'leito', title: 'Leito', width: '10%' }
-				{ data: 'nome', title: 'Nome' },
+				// {
+				// 	data: 'internacao',
+				// 	title: 'Internação',
+				// 	// width: '15%',
+				// 	render: function (data, type, row, meta) {
+				// 		if (type === 'sort') {
+				// 			return moment(data, 'DD/MM/YYYY').format('YYYY/MM/DD');
+				// 		}
+				// 		return data;
+				// 	}
+				// },
+				{ data: 'internacao', title: 'Internação', render: tipoData },
+				{ data: 'paciente', title: 'Paciente' },
 				{ data: 'sintomas', title: 'Sintomas' },
 				{ data: 'comorbidades', title: 'Comorbidades' },
 				{ data: 'municipio', title: 'Município' },
-				{ data: 'leito', title: 'Leito' }
+				{ data: 'estado', title: 'Estado' },
+				{ data: 'leito', title: 'Leito' },
+				{ data: 'hipotese_diagnostica', title: 'Hipótese Diagnóstica' }
 			],
 			scrollX: true,
 			responsive: {
@@ -143,15 +157,21 @@ $(document).ready(function () {
 			var detailsHtml = '<div class="details-container">';
 			detailsHtml += '<strong>Sexo:</strong> ' + rowData.sexo + '<br>';
 			detailsHtml += '<strong>Idade:</strong> ' + rowData.idade + '<br>';
-			detailsHtml += '<strong>Vacina:</strong> ' + rowData.vacina + '<br>';
 			detailsHtml += '<strong>Data dos Sintomas:</strong> ' + rowData.data_sintomas + '<br>';
+			detailsHtml += '<strong>Comorbidades:</strong> ' + rowData.comorbidades + '<br>';
+			detailsHtml += '<strong>Vacina:</strong> ' + rowData.vacina + '<br>';
+			detailsHtml += '<strong>Evolução:</strong> ' + rowData.evolucao + '<br>';
 			detailsHtml += '<strong>Exames:</strong> ' + rowData.exames + '<br>';
+			detailsHtml += '<strong>Data dos Exames:</strong> ' + rowData.data_exames + '<br>';
 			detailsHtml += '<strong>Hipótese Diagnóstica:</strong> ' + rowData.hipotese_diagnostica + '<br>';
+			detailsHtml += '<strong>Agravo:</strong> ' + rowData.agravo + '<br>';
+			detailsHtml += '<strong>Data do Agravo:</strong> ' + rowData.data_agravo + '<br>';
+			detailsHtml += '<strong>Finalização:</strong> ' + rowData.finalizacao_do_caso + '<br>';
+			detailsHtml += '<strong>Data de Finalização:</strong> ' + rowData.data_finalizacao + '<br>';
 			// detailsHtml += '<strong>Cotificações:</strong> ' + (rowData.cotificacoes ? 'Sim' : 'Não') + '<br>';
-			detailsHtml += '<strong>Cotificações:</strong> ' + rowData.cotificacoes + '<br>';
-			detailsHtml += '<strong>Data de Atualização:</strong> ' + rowData.data_de_atualizacao + '<br>';
+			// detailsHtml += '<strong>Data de Atualização:</strong> ' + rowData.data_de_atualizacao + '<br>';
 			// detailsHtml += '<strong>Status:</strong> ' + (rowData.status ? 'Sim' : 'Não') + '<br>';
-			detailsHtml += '<strong>Status:</strong> ' + rowData.status + '<br>';
+			// detailsHtml += '<strong>Status:</strong> ' + rowData.status + '<br>';
 			detailsHtml += '</div>';
 
 			this.child(detailsHtml).hide();

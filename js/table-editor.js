@@ -1,3 +1,15 @@
+// Função para formatar datas usando moment.js
+function tipoData(data, type, row, meta) {
+	if (data && typeof data === 'string') {
+		if (type === 'sort') {
+			return moment(data, 'DD/MM/YYYY').format('YYYY/MM/DD');
+		}
+		return data.trim();
+	}
+	return data;
+}
+
+// Configuração da tabela DataTables
 function populateDataTable(data) {
 
 	if ($.fn.DataTable.isDataTable('#dataTable')) {
@@ -54,33 +66,26 @@ function populateDataTable(data) {
 					return buttons;
 				}
 			},
-			{
-				data: 'data',
-				title: 'Data',
-				// width: '15%',
-				render: function (data, type, row, meta) {
-					if (type === 'sort') {
-						return moment(data, 'DD/MM/YYYY').format('YYYY/MM/DD');
-					}
-					return data;
-				}
-			},
-			{ data: 'nome', title: 'Nome' },
+			{ data: 'internacao', title: 'Internação', render: tipoData },
+			{ data: 'semana', title: 'Semana' },
+			{ data: 'paciente', title: 'Paciente' },
 			{ data: 'sexo', title: 'Sexo' },
 			{ data: 'idade', title: 'Idade' },
-			{ data: 'sintomas', title: 'Sintomas' },
-			{ data: 'comorbidades', title: 'Comorbidades' },
 			{ data: 'municipio', title: 'Município' },
+			{ data: 'estado', title: 'Estado' },
+			{ data: 'sintomas', title: 'Sintomas' },
+			{ data: 'data_sintomas', title: 'Data dos Sintomas', render: tipoData },
 			{ data: 'comorbidades', title: 'Comorbidades' },
 			{ data: 'vacina', title: 'Vacina' },
 			{ data: 'leito', title: 'Leito' },
 			{ data: 'evolucao', title: 'Evolução' },
-			{ data: 'data_sintomas', title: 'Data dos Sintomas' },
 			{ data: 'exames', title: 'Exames' },
+			{ data: 'data_exames', title: 'Data dos Exames', render: tipoData },
 			{ data: 'hipotese_diagnostica', title: 'Hipótese Diagnóstica' },
-			{ data: 'cotificacoes', title: 'Cotificações' },
-			{ data: 'data_de_atualizacao', title: 'Data de Atualização' },
-			{ data: 'status', title: 'Status' },
+			{ data: 'agravo', title: 'Agravo' },
+			{ data: 'data_agravo', title: 'Data do Agravo', render: tipoData },
+			{ data: 'finalizacao_do_caso', title: 'Finalização do Caso' },
+			{ data: 'data_finalizacao', title: 'Data de Finalização', render: tipoData },
 			{ data: 'id', title: 'id', visible: true }
 		],
 		// order: [],
@@ -117,7 +122,7 @@ $(document).ready(function () {
 		type: 'GET',
 		dataType: 'json',
 		success: function (data) {
-			console.log(data);
+			// console.log(data);
 			populateDataTable(data);
 		},
 		error: function (xhr, status, error) {

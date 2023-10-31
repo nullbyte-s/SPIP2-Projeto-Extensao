@@ -54,26 +54,26 @@
                         if (rowData.some(cellValue => cellValue !== "")) {
                             const jsonObject = {
                                 "id": id++,
-                                "internacao": formatarData(rowData[0]),
-                                "semana": rowData[1],
-                                "paciente": rowData[2],
-                                "sexo": rowData[3],
-                                "idade": rowData[4],
-                                "municipio": rowData[5],
-                                "estado": rowData[6],
-                                "sintomas": rowData[7],
-                                "data_sintomas": formatarData(rowData[8]),
-                                "comorbidades": rowData[9],
-                                "vacina": rowData[10],
-                                "leito": rowData[11],
-                                "evolucao": rowData[12],
-                                "exames": rowData[13],
-                                "data_exames": formatarData(rowData[14]),
-                                "hipotese_diagnostica": rowData[15],
-                                "agravo": rowData[16],
-                                "data_agravo": formatarData(rowData[17]),
-                                "finalizacao_do_caso": rowData[18],
-                                "data_finalizacao": formatarData(rowData[19]),
+                                "internacao": formatarData(rowData[0]) || "",
+                                "semana": rowData[1] || "",
+                                "paciente": rowData[2] || "",
+                                "sexo": rowData[3] || "",
+                                "idade": rowData[4] || "",
+                                "municipio": rowData[5] || "",
+                                "estado": rowData[6] || "",
+                                "sintomas": rowData[7] || "",
+                                "data_sintomas": formatarData(rowData[8]) || "",
+                                "comorbidades": rowData[9] || "",
+                                "vacina": rowData[10] || "",
+                                "leito": rowData[11] || "",
+                                "evolucao": rowData[12] || "",
+                                "exames": rowData[13] || "",
+                                "data_exames": formatarData(rowData[14]) || "",
+                                "hipotese_diagnostica": rowData[15] || "",
+                                "agravo": rowData[16] || "",
+                                "data_agravo": formatarData(rowData[17]) || "",
+                                "finalizacao_do_caso": rowData[18] || "",
+                                "data_finalizacao": formatarData(rowData[19]) || "",
                             };
 
                             jsonArray.push(jsonObject);
@@ -136,12 +136,25 @@
                 })
                 .then(data => {
                     // Manipula a resposta do backend, se necessário
-                    console.log('POST successful:', data);
+                    // console.log('POST successful:', data);
+                    displayNotification('Convertido com sucesso!');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2500);
                 })
                 .catch(error => {
                     // Manipula erros durante o POST
                     console.error('Error during POST:', error.message);
+                    displayNotification('Erro ao enviar dados');
                 });
+        }
+
+        function displayNotification(message) {
+            mdtoast(message, {
+                duration: 2000,
+                type: mdtoast.INFO,
+                interaction: false
+            });
         }
 
     </script>

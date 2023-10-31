@@ -40,7 +40,8 @@ function excluirRegistro($dados, $indice)
 
 // Processamento do formulário
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $arquivoJson = "../db/dados.json";
+    $anoAtual = date("Y");
+    $arquivoJson = dirname(__FILE__) . "/../db/dados_$anoAtual.json";
     $dados = lerArquivoJson($arquivoJson);
 
     // Adicionar novo registro
@@ -48,22 +49,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ultimoId = end($dados)["id"];
         $novoId = $ultimoId + 1;
         $novoRegistro = array(
-            "data" => isset($_POST["data"]) ? $_POST["data"] : null,
-            "nome" => isset($_POST["nome"]) ? $_POST["nome"] : null,
+            "internacao" => isset($_POST["internacao"]) ? $_POST["internacao"] : null,
+            "semana" => isset($_POST["semana"]) ? $_POST["semana"] : null,
+            "paciente" => isset($_POST["paciente"]) ? $_POST["paciente"] : null,
             "sexo" => isset($_POST["sexo"]) ? $_POST["sexo"] : null,
             "idade" => isset($_POST["idade"]) ? $_POST["idade"] : null,
             "municipio" => isset($_POST["municipio"]) ? $_POST["municipio"] : null,
+            "estado" => isset($_POST["estado"]) ? $_POST["estado"] : null,
             "sintomas" => isset($_POST["sintomas"]) ? $_POST["sintomas"] : null,
+            "data_sintomas" => isset($_POST["data_sintomas"]) ? $_POST["data_sintomas"] : null,
             "comorbidades" => isset($_POST["comorbidades"]) ? $_POST["comorbidades"] : null,
             "vacina" => isset($_POST["vacina"]) ? $_POST["vacina"] : null,
             "leito" => isset($_POST["leito"]) ? $_POST["leito"] : null,
             "evolucao" => isset($_POST["evolucao"]) ? $_POST["evolucao"] : null,
-            "data_sintomas" => isset($_POST["data_sintomas"]) ? $_POST["data_sintomas"] : null,
             "exames" => isset($_POST["exames"]) ? $_POST["exames"] : null,
+            "data_exames" => isset($_POST["data_exames"]) ? $_POST["data_exames"] : null,
             "hipotese_diagnostica" => isset($_POST["hipotese_diagnostica"]) ? $_POST["hipotese_diagnostica"] : null,
-            "cotificacoes" => isset($_POST["cotificacoes"]) ? $_POST["cotificacoes"] : null,
-            "data_de_atualizacao" => isset($_POST["data_de_atualizacao"]) ? $_POST["data_de_atualizacao"] : null,
-            "status" => isset($_POST["status"]) ? $_POST["status"] : null,
+            "agravo" => isset($_POST["agravo"]) ? $_POST["agravo"] : null,
+            "data_agravo" => isset($_POST["data_agravo"]) ? $_POST["data_agravo"] : null,
+            "finalizacao_do_caso" => isset($_POST["finalizacao_do_caso"]) ? $_POST["finalizacao_do_caso"] : null,
+            "data_finalizacao" => isset($_POST["data_finalizacao"]) ? $_POST["data_finalizacao"] : null,
             "id" => $novoId,
         );
 
@@ -74,22 +79,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["indice_editar"])) {
         $indice = isset($_POST["indice_editar"]) ? intval($_POST["indice_editar"]) : -1;
         $registroAtualizado = array(
-            "data" => isset($_POST["data"]) ? $_POST["data"] : null,
-            "nome" => isset($_POST["nome"]) ? $_POST["nome"] : null,
+            "internacao" => isset($_POST["internacao"]) ? $_POST["internacao"] : null,
+            "semana" => isset($_POST["semana"]) ? $_POST["semana"] : null,
+            "paciente" => isset($_POST["paciente"]) ? $_POST["paciente"] : null,
             "sexo" => isset($_POST["sexo"]) ? $_POST["sexo"] : null,
             "idade" => isset($_POST["idade"]) ? $_POST["idade"] : null,
             "municipio" => isset($_POST["municipio"]) ? $_POST["municipio"] : null,
+            "estado" => isset($_POST["estado"]) ? $_POST["estado"] : null,
             "sintomas" => isset($_POST["sintomas"]) ? $_POST["sintomas"] : null,
+            "data_sintomas" => isset($_POST["data_sintomas"]) ? $_POST["data_sintomas"] : null,
             "comorbidades" => isset($_POST["comorbidades"]) ? $_POST["comorbidades"] : null,
             "vacina" => isset($_POST["vacina"]) ? $_POST["vacina"] : null,
             "leito" => isset($_POST["leito"]) ? $_POST["leito"] : null,
             "evolucao" => isset($_POST["evolucao"]) ? $_POST["evolucao"] : null,
-            "data_sintomas" => isset($_POST["data_sintomas"]) ? $_POST["data_sintomas"] : null,
             "exames" => isset($_POST["exames"]) ? $_POST["exames"] : null,
+            "data_exames" => isset($_POST["data_exames"]) ? $_POST["data_exames"] : null,
             "hipotese_diagnostica" => isset($_POST["hipotese_diagnostica"]) ? $_POST["hipotese_diagnostica"] : null,
-            "cotificacoes" => isset($_POST["cotificacoes"]) ? $_POST["cotificacoes"] : null,
-            "data_de_atualizacao" => isset($_POST["data_de_atualizacao"]) ? $_POST["data_de_atualizacao"] : null,
-            "status" => isset($_POST["status"]) ? $_POST["status"] : null,
+            "agravo" => isset($_POST["agravo"]) ? $_POST["agravo"] : null,
+            "data_agravo" => isset($_POST["data_agravo"]) ? $_POST["data_agravo"] : null,
+            "finalizacao_do_caso" => isset($_POST["finalizacao_do_caso"]) ? $_POST["finalizacao_do_caso"] : null,
+            "data_finalizacao" => isset($_POST["data_finalizacao"]) ? $_POST["data_finalizacao"] : null,
             "id" => isset($_POST["indice_editar"]) ? $_POST["indice_editar"] : null,
         );
 
@@ -114,22 +123,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $indiceAdicionar = isset($_POST["adicionar"]) ? intval($_POST["adicionar"]) : -1;
         $dados = array_values($dados);
         $novoRegistroEmBranco = array(
-            "data" => "",
-            "nome" => "",
+            "internacao" => "",
+            "semana" => "",
+            "paciente" => "",
             "sexo" => "",
             "idade" => "",
             "municipio" => "",
+            "estado" => "",
             "sintomas" => "",
+            "data_sintomas" => "",
             "comorbidades" => "",
             "vacina" => "",
             "leito" => "",
             "evolucao" => "",
-            "data_sintomas" => "",
             "exames" => "",
+            "data_exames" => "",
             "hipotese_diagnostica" => "",
-            "cotificacoes" => "",
-            "data_de_atualizacao" => "",
-            "status" => "",
+            "agravo" => "",
+            "data_agravo" => "",
+            "finalizacao_do_caso" => "",
+            "data_finalizacao" => "",
             "id" => $indice,
         );
         array_splice($dados, $indice, 0, array($novoRegistroEmBranco));
@@ -185,60 +198,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <form method="POST" action="" id="dadosForm">
                                     <table class="table-invisible">
                                         <tr>
-                                            <td><label for="data">Data:</label></td>
-                                            <td><input type="text" name="data" id="data" class="form-field" required oninput="formatarData(this)" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/AAAA"></td>
+                                            <td><label for="internacao">Internação:</label></td>
+                                            <td><input type="text" name="internacao" id="internacao" class="form-field" required oninput="formatarData(this)" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/AAAA"></td>
 
-                                            <td><label for="nome">Nome:</label></td>
-                                            <td><input type="text" name="nome" id="nome" class="form-field" required></td>
+                                            <td><label for="semana">Semana:</label></td>
+                                            <td><input type="number" name="semana" id="semana" class="form-field" required></td>
                                         </tr>
+
                                         <tr>
+                                            <td><label for="paciente">Paciente:</label></td>
+                                            <td><input type="text" name="paciente" id="paciente" class="form-field" required></td>
+
                                             <td><label for="sexo">Sexo:</label></td>
                                             <td><input type="text" name="sexo" id="sexo" class="form-field" required></td>
+                                        </tr>
 
+                                        <tr>
                                             <td><label for="idade">Idade:</label></td>
                                             <td><input type="number" name="idade" id="idade" class="form-field" required></td>
-                                        </tr>
-                                        <tr>
+
                                             <td><label for="municipio">Município:</label></td>
                                             <td><input type="municipio" name="municipio" id="municipio" class="form-field"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="estado">Estado:</label></td>
+                                            <td><input type="estado" name="estado" id="estado" class="form-field"></td>
 
                                             <td><label for="sintomas">Sintomas:</label></td>
                                             <td><input type="text" name="sintomas" id="sintomas" class="form-field"></td>
                                         </tr>	
                                         <tr>
-                                            <td><label for="comorbidades">Comorbidades:</label></td>
-                                            <td><input type="text" name="comorbidades" id="comorbidades" class="form-field"></td>
-
-                                            <td><label for="vacina">Vacina:</label></td>
-                                            <td><input type="text" name="vacina" id="vacina" class="form-field"></td>
-                                        </tr>	
-                                        <tr>
-                                            <td><label for="leito">Leito:</label></td>
-                                            <td><input type="leito" name="leito" id="leito" class="form-field"></td>
-
-                                            <td><label for="evolucao">Evolução:</label></td>
-                                            <td><input type="text" name="evolucao" id="evolucao" class="form-field"></td>
-                                        </tr>
-                                        <tr>
                                             <td><label for="data_sintomas">Data dos Sintomas:</label></td>
                                             <td><input type="data_sintomas" name="data_sintomas" id="data_sintomas" class="form-field" oninput="formatarData(this)" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/AAAA"></td>
+                                            
+                                            <td><label for="comorbidades">Comorbidades:</label></td>
+                                            <td><input type="text" name="comorbidades" id="comorbidades" class="form-field"></td>
+                                        </tr>	
+                                        <tr>
+                                            <td><label for="vacina">Vacina:</label></td>
+                                            <td><input type="text" name="vacina" id="vacina" class="form-field"></td>
+                                            
+                                            <td><label for="leito">Leito:</label></td>
+                                            <td><input type="leito" name="leito" id="leito" class="form-field"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="evolucao">Evolução:</label></td>
+                                            <td><input type="text" name="evolucao" id="evolucao" class="form-field"></td>
 
                                             <td><label for="exames">Exames:</label></td>
                                             <td><input type="exames" name="exames" id="exames" class="form-field"></td>
                                         </tr>
                                         <tr>
+                                            <td><label for="data_exames">Data dos Exames:</label></td>
+                                            <td><input type="data_exames" name="data_exames" id="data_exames" class="form-field" oninput="formatarData(this)" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/AAAA"></td>
+                                            
                                             <td><label for="hipotese_diagnostica">Hipótese Diagnóstica:</label></td>
                                             <td><input type="hipotese_diagnostica" name="hipotese_diagnostica" id="hipotese_diagnostica" class="form-field"></td>
-
-                                            <td><label for="cotificacoes">Cotificações:</label></td>
-                                            <td><input type="cotificacoes" name="cotificacoes" id="cotificacoes" class="form-field"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="data_de_atualizacao">Data de Atualização:</label></td>
-                                            <td><input type="data_de_atualizacao" name="data_de_atualizacao" id="data_de_atualizacao" class="form-field" oninput="formatarData(this)" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/AAAA"></td>
+                                            <td><label for="agravo">Agravo:</label></td>
+                                            <td><input type="agravo" name="agravo" id="agravo" class="form-field"></td>
 
-                                            <td><label for="status">Status:</label></td>
-                                            <td><input type="status" name="status" id="status" class="form-field"></td>
+                                            <td><label for="data_agravo">Data do Agravo:</label></td>
+                                            <td><input type="data_agravo" name="data_agravo" id="data_agravo" class="form-field" oninput="formatarData(this)" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/AAAA"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="finalizacao_do_caso">Finalização do Caso:</label></td>
+                                            <td><input type="finalizacao_do_caso" name="finalizacao_do_caso" id="hipotese_diagnostica" class="form-field"></td>
+                                            
+                                            <td><label for="data_finalizacao">Data de Finalização:</label></td>
+                                            <td><input type="data_finalizacao" name="data_finalizacao" id="data_finalizacao" class="form-field" oninput="formatarData(this)" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/AAAA"></td>
                                         </tr>
                                         <tr class="text-center">
                                             <td colspan="4">
@@ -422,22 +451,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             var registro = dados.find(function (id) {
                 return id.id == idValue;
             });
-            $('#data').val(registro.data);
-            $('#nome').val(registro.nome);
+            $('#internacao').val(registro.internacao);
+            $('#semana').val(registro.semana);
+            $('#paciente').val(registro.paciente);
             $('#sexo').val(registro.sexo);
             $('#idade').val(registro.idade);
             $('#municipio').val(registro.municipio);
+            $('#estado').val(registro.estado);
             $('#sintomas').val(registro.sintomas);
+            $('#data_sintomas').val(registro.data_sintomas);
             $('#comorbidades').val(registro.comorbidades);
             $('#vacina').val(registro.vacina);
             $('#leito').val(registro.leito);
             $('#evolucao').val(registro.evolucao);
-            $('#data_sintomas').val(registro.data_sintomas);
             $('#exames').val(registro.exames);
+            $('#data_exames').val(registro.data_exames);
             $('#hipotese_diagnostica').val(registro.hipotese_diagnostica);
-            $('#cotificacoes').val(registro.cotificacoes);
-            $('#data_de_atualizacao').val(registro.data_de_atualizacao);
-            $('#status').val(registro.status);
+            $('#agravo').val(registro.agravo);
+            $('#data_agravo').val(registro.data_agravo);
+            $('#finalizacao_do_caso').val(registro.finalizacao_do_caso);
+            $('#data_finalizacao').val(registro.data_finalizacao);
 
             $('#salvar').hide();
             $('#editar, #cancelar').show();

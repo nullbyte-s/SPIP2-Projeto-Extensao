@@ -1,5 +1,6 @@
 <?php
-$jsonFilePath = dirname(__FILE__) . '/../db/dados.json';
+$anoAtual = date("Y");
+$jsonFilePath = dirname(__FILE__) . "/../db/dados_$anoAtual.json";
 
 if (file_exists($jsonFilePath)) {
     $jsonData = file_get_contents($jsonFilePath);

@@ -1,8 +1,5 @@
 <?php
 
-    // $json_file_path = "../db/dados.json";
-    // $json_content = file_get_contents($json_file_path, false, stream_context_create(['http' => ['header' => 'Accept-Charset: UTF-8']]));
-
     // Caminho para o arquivo JSON
     $anoAtual = date("Y");
     $json_file_path = "../db/dados_$anoAtual.json";
@@ -21,13 +18,18 @@
             // Verifica se a decodificação JSON foi bem-sucedida
             if ($data !== null) {
 
-                // // Verifica se a rota é específica para a função addToDB
-                // if (isset($_GET['action']) && $_GET['action'] === 'addToDB') {
-                //     addToDB($data);
-                // }
+                // Verifica se a rota é específica para a função insertData
+                if (isset($_GET['action']) && $_GET['action'] === 'insertData') {
+                    insertData($data);
+                }
+
+                // Verifica se a rota é específica para a função postInDB
+                if (isset($_GET['action']) && $_GET['action'] === 'postInDB') {
+                    postInDB($data);
+                }
 
                 // Lógica para tratar os dados recebidos
-                postInDB($data);
+                // postInDB($data);
 
                 // Se tudo estiver OK, retorna um código de status 200 (OK)
                 http_response_code(200);
@@ -94,7 +96,8 @@
         }
     }
 
-    function generateDB($data) {
+    // Em desenvolvimento
+    function insertData($data) {
         // Caminho para o arquivo JSON
         $anoAtual = date("Y");
         $json_file_path = "../db/dados_$anoAtual.json";
@@ -104,21 +107,17 @@
 
         // Obtém o conteúdo atual do arquivo, se existir
         $json_content = file_exists($json_file_path) ? file_get_contents($json_file_path) : '[]';
-
-        // Converte o conteúdo JSON para um array PHP
-        $database = json_decode($json_content, true);
-
-        // Adiciona os novos dados ao array
-        $database[] = $data;
-
-        // Codifica o array de volta para JSON com formatação legível
-        $json_response = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-
-        // Escreve o JSON resultante no arquivo, sobrescrevendo o conteúdo existente
-        file_put_contents($json_file_path, $json_response, LOCK_EX);
         
-        // Retorna os dados adicionados, se necessário
-        echo $json_response;
+        $data = is_array($data) ? $data : (array)$data;
+        $database = json_decode($json_content, true);
+        $database[] = $data;
+        $json_response = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    
+        if (file_put_contents($json_file_path, $json_response, LOCK_EX)) {
+            echo $json_response;
+        } else {
+            echo json_encode(['error' => 'Falha ao escrever no arquivo.']);
+        }
     }
 
     // Coloca os dados no DB provisório, em JSON
@@ -133,11 +132,11 @@
         // Obtém o conteúdo atual do arquivo, se existir
         $json_content = file_exists($json_file_path) ? file_get_contents($json_file_path) : '[]';
 
-        // Converte o conteúdo JSON para um array PHP
-        $database = json_decode($json_content, true);
-
         // Adiciona os novos dados ao array
         $database[] = $data;
+
+        // Converte o conteúdo JSON para um array PHP
+        $database = json_decode($json_content, true);
 
         // Codifica o array de volta para JSON com formatação legível
         $json_response = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
