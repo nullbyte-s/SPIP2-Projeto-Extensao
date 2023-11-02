@@ -23,6 +23,20 @@ $(document).ready(function () {
 		return data;
 	}
 
+	function formatarArrayTexto(data) {
+		if (data) {
+			try {
+				const arrayData = JSON.parse(data);
+				if (Array.isArray(arrayData)) {
+					return arrayData.map(item => item.trim()).join(', ');
+				}
+			} catch (error) {
+				console.error('Erro ao parsear dados do array:', error);
+			}
+		}
+		return data;
+	}
+
 	function populateDataTable(data) {
 		if ($.fn.DataTable.isDataTable('#dataTable')) {
 			// 	$('#dataTable').DataTable().destroy();
@@ -90,12 +104,12 @@ $(document).ready(function () {
 				// },
 				{ data: 'internacao', title: 'Internação', render: tipoData },
 				{ data: 'paciente', title: 'Paciente' },
-				{ data: 'sintomas', title: 'Sintomas' },
-				{ data: 'comorbidades', title: 'Comorbidades' },
+				{ data: 'sintomas', title: 'Sintomas', render: formatarArrayTexto },
+				{ data: 'comorbidades', title: 'Comorbidades', render: formatarArrayTexto },
 				{ data: 'municipio', title: 'Município' },
 				{ data: 'estado', title: 'Estado' },
 				{ data: 'leito', title: 'Leito' },
-				{ data: 'hipotese_diagnostica', title: 'Hipótese Diagnóstica' }
+				{ data: 'hipotese_diagnostica', title: 'Hipótese Diagnóstica', render: formatarArrayTexto }
 			],
 			scrollX: true,
 			responsive: {
@@ -158,12 +172,12 @@ $(document).ready(function () {
 			detailsHtml += '<strong>Sexo:</strong> ' + rowData.sexo + '<br>';
 			detailsHtml += '<strong>Idade:</strong> ' + rowData.idade + '<br>';
 			detailsHtml += '<strong>Data dos Sintomas:</strong> ' + rowData.data_sintomas + '<br>';
-			detailsHtml += '<strong>Comorbidades:</strong> ' + rowData.comorbidades + '<br>';
+			detailsHtml += '<strong>Comorbidades:</strong> ' + formatarArrayTexto(rowData.comorbidades) + '<br>';
 			detailsHtml += '<strong>Vacina:</strong> ' + rowData.vacina + '<br>';
 			detailsHtml += '<strong>Evolução:</strong> ' + rowData.evolucao + '<br>';
 			detailsHtml += '<strong>Exames:</strong> ' + rowData.exames + '<br>';
 			detailsHtml += '<strong>Data dos Exames:</strong> ' + rowData.data_exames + '<br>';
-			detailsHtml += '<strong>Hipótese Diagnóstica:</strong> ' + rowData.hipotese_diagnostica + '<br>';
+			detailsHtml += '<strong>Hipótese Diagnóstica:</strong> ' + formatarArrayTexto(rowData.hipotese_diagnostica) + '<br>';
 			detailsHtml += '<strong>Agravo:</strong> ' + rowData.agravo + '<br>';
 			detailsHtml += '<strong>Data do Agravo:</strong> ' + rowData.data_agravo + '<br>';
 			detailsHtml += '<strong>Finalização:</strong> ' + rowData.finalizacao_do_caso + '<br>';

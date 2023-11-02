@@ -61,15 +61,15 @@
                                 "idade": rowData[4] || "",
                                 "municipio": rowData[5] || "",
                                 "estado": rowData[6] || "",
-                                "sintomas": rowData[7] || "",
+                                "sintomas": converterDadosArray(rowData[7]) || "",
                                 "data_sintomas": formatarData(rowData[8]) || "",
-                                "comorbidades": rowData[9] || "",
+                                "comorbidades": converterDadosArray(rowData[9]) || "",
                                 "vacina": rowData[10] || "",
                                 "leito": rowData[11] || "",
                                 "evolucao": rowData[12] || "",
                                 "exames": rowData[13] || "",
                                 "data_exames": formatarData(rowData[14]) || "",
-                                "hipotese_diagnostica": rowData[15] || "",
+                                "hipotese_diagnostica": converterDadosArray(rowData[15]) || "",
                                 "agravo": rowData[16] || "",
                                 "data_agravo": formatarData(rowData[17]) || "",
                                 "finalizacao_do_caso": rowData[18] || "",
@@ -111,6 +111,18 @@
                     return data;
                 }
             }
+        }
+
+        function converterDadosArray(data) {
+            if (!data || typeof data !== 'string') {
+                return data;
+            }
+
+            // Divide os dados usando o ponto e vírgula como delimitador
+            const dadosArray = data.split(';').map(item => item.trim());
+
+            // Retorna o array JSON
+            return JSON.stringify(dadosArray);
         }
 
         function postToBackend(jsonContent) {

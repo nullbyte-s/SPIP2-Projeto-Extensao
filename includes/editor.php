@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: text/html; charset=utf-8');
+
 // Funções CRUD
 function lerArquivoJson($caminho)
 {
@@ -9,7 +11,7 @@ function lerArquivoJson($caminho)
 
 function escreverArquivoJson($caminho, $dados)
 {
-    $jsonString = json_encode($dados, JSON_PRETTY_PRINT);
+    $jsonString = json_encode($dados, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     file_put_contents($caminho, $jsonString);
 }
 
@@ -46,8 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Adicionar novo registro
     if (isset($_POST["salvar"])) {
-        $ultimoId = end($dados)["id"];
-        $novoId = $ultimoId + 1;
+
+        $ultimoID = end($dados)["id"];
+        $novoID = $ultimoID + 1;
+
         $novoRegistro = array(
             "internacao" => isset($_POST["internacao"]) ? $_POST["internacao"] : null,
             "semana" => isset($_POST["semana"]) ? $_POST["semana"] : null,
@@ -56,20 +60,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "idade" => isset($_POST["idade"]) ? $_POST["idade"] : null,
             "municipio" => isset($_POST["municipio"]) ? $_POST["municipio"] : null,
             "estado" => isset($_POST["estado"]) ? $_POST["estado"] : null,
-            "sintomas" => isset($_POST["sintomas"]) ? $_POST["sintomas"] : null,
+            "sintomas" => isset($_POST["sintomas"]) ? explode(', ', $_POST["sintomas"]) : null,
             "data_sintomas" => isset($_POST["data_sintomas"]) ? $_POST["data_sintomas"] : null,
-            "comorbidades" => isset($_POST["comorbidades"]) ? $_POST["comorbidades"] : null,
+            "comorbidades" => isset($_POST["comorbidades"]) ? explode(', ', $_POST["comorbidades"]) : null,
             "vacina" => isset($_POST["vacina"]) ? $_POST["vacina"] : null,
             "leito" => isset($_POST["leito"]) ? $_POST["leito"] : null,
             "evolucao" => isset($_POST["evolucao"]) ? $_POST["evolucao"] : null,
             "exames" => isset($_POST["exames"]) ? $_POST["exames"] : null,
             "data_exames" => isset($_POST["data_exames"]) ? $_POST["data_exames"] : null,
-            "hipotese_diagnostica" => isset($_POST["hipotese_diagnostica"]) ? $_POST["hipotese_diagnostica"] : null,
+            "hipotese_diagnostica" => isset($_POST["hipotese_diagnostica"]) ? explode(', ', $_POST["hipotese_diagnostica"]) : null,
             "agravo" => isset($_POST["agravo"]) ? $_POST["agravo"] : null,
             "data_agravo" => isset($_POST["data_agravo"]) ? $_POST["data_agravo"] : null,
             "finalizacao_do_caso" => isset($_POST["finalizacao_do_caso"]) ? $_POST["finalizacao_do_caso"] : null,
             "data_finalizacao" => isset($_POST["data_finalizacao"]) ? $_POST["data_finalizacao"] : null,
-            "id" => $novoId,
+            "id" => $novoID,
         );
 
         $dados = adicionarRegistro($dados, $novoRegistro);
@@ -264,7 +268,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </tr>
                                         <tr>
                                             <td><label for="finalizacao_do_caso">Finalização do Caso:</label></td>
-                                            <td><input type="finalizacao_do_caso" name="finalizacao_do_caso" id="hipotese_diagnostica" class="form-field"></td>
+                                            <td><input type="finalizacao_do_caso" name="finalizacao_do_caso" id="finalizacao_do_caso" class="form-field"></td>
                                             
                                             <td><label for="data_finalizacao">Data de Finalização:</label></td>
                                             <td><input type="data_finalizacao" name="data_finalizacao" id="data_finalizacao" class="form-field" oninput="formatarData(this)" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/AAAA"></td>
@@ -338,6 +342,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
 
         $(document).on('click', '#salvar', function () {
+            formatarDadosAntesDeSalvar();
             salvar();
         });
 
@@ -355,25 +360,92 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             cancelar();
         });
 
+        // function salvar() {
+        //     $.ajax({
+        //         url: 'includes/editor.php',
+        //         type: 'POST',
+        //         data: $('#dadosForm').serialize(),
+        //         success: function (response) {
+        //             // alert('Salvo com sucesso!');
+        //             // displayNotification('Salvo com sucesso!');
+        //             $('#content').html(response);
+        //         },
+        //         error: function (xhr, status, error) {
+        //             console.error('Erro ao enviar dados:', status, error);
+        //             displayNotification('Erro ao enviar dados');
+        //         }
+        //     }).done(function () {
+        //         displayNotification('Salvo com sucesso!');
+        //     });
+        // }
+
         function salvar() {
-            $('#salvar').val('Salvar');
-            $('#dadosForm').append('<input type="hidden" name="salvar" value="Salvar">');
-            $.ajax({
-                url: 'includes/editor.php',
-                type: 'POST',
-                data: $('#dadosForm').serialize(),
-                success: function (response) {
-                    // alert('Salvo com sucesso!');
-                    // displayNotification('Salvo com sucesso!');
-                    $('#content').html(response);
+            var formData = {
+                id: getElementValue('id'),
+                internacao: getElementValue('internacao'),
+                semana: getElementValue('semana'),
+                paciente: getElementValue('paciente'),
+                sexo: getElementValue('sexo'),
+                idade: getElementValue('idade'),
+                municipio: getElementValue('municipio'),
+                estado: getElementValue('estado'),
+                sintomas: getElementValue('sintomas'),
+                data_sintomas: getElementValue('data_sintomas'),
+                comorbidades: getElementValue('comorbidades'),
+                vacina: getElementValue('vacina'),
+                leito: getElementValue('leito'),
+                evolucao: getElementValue('evolucao'),
+                exames: getElementValue('exames'),
+                data_exames: getElementValue('data_exames'),
+                hipotese_diagnostica: getElementValue('hipotese_diagnostica'),
+                agravo: getElementValue('agravo'),
+                data_agravo: getElementValue('data_agravo'),
+                finalizacao_do_caso: getElementValue('finalizacao_do_caso'),
+                data_finalizacao: getElementValue('data_finalizacao')
+            };
+
+            fetch('backend/api.php?action=insertData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                error: function (xhr, status, error) {
-                    console.error('Erro ao enviar dados:', status, error);
-                    displayNotification('Erro ao enviar dados');
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                // console.log('Resposta do servidor:', response);
+
+                if (response.ok) {
+                    if (response.headers.get('Content-Type').includes('application/json')) {
+                        return response.json();
+                    } else {
+                        // Se não for JSON, trata de acordo com o tipo de resposta
+                        return response.text();
+                    }
+                } else {
+                    return Promise.reject('Nenhum conteúdo');
                 }
-            }).done(function () {
+            })
+            .then(data => {
+                // // Verifica o tipo de dado retornado
+                // if (typeof data === 'object') {
+                //     console.log('Dados JSON:', data);
+                // } else {
+                //     console.log('Dados não JSON:', data);
+                // }
                 displayNotification('Salvo com sucesso!');
+                sessionStorage.setItem('temp_data', 'op_line');
+                setTimeout(function () {
+                    location.reload();
+                }, 1100);
+            })
+            .catch(error => {
+                console.error('Erro ao processar a resposta:', error);
+                displayNotification('Erro ao enviar dados');
             });
+            function getElementValue(id) {
+                var element = document.getElementById(id);
+                return element ? element.value : null;
+            }
         }
 
         function editar(indice) {
@@ -493,6 +565,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             input.value = value;
+        }
+
+        function formatarDadosAntesDeSalvar() {
+            var sintomas = $('#sintomas').val();
+            var comorbidades = $('#comorbidades').val();
+            var hipoteseDiagnostica = $('#hipotese_diagnostica').val();
+
+            // Converte os dados para o formato desejado
+            var arraySintomas = formatarCampoArray(sintomas);
+            var arrayComorbidades = formatarCampoArray(comorbidades);
+            var arrayHipoteseDiagnostica = formatarCampoArray(hipoteseDiagnostica);
+
+            // Atualiza os valores dos campos com os dados formatados
+            $('#sintomas').val(arraySintomas);
+            $('#comorbidades').val(arrayComorbidades);
+            $('#hipotese_diagnostica').val(arrayHipoteseDiagnostica);
+        }
+
+        function formatarCampoArray(dados) {
+            // Divide os dados por espaços e vírgulas
+            var elementos = dados.split(/[,\s]+/);
+
+            // Remove elementos vazios
+            elementos = elementos.filter(function (elemento) {
+                return elemento.trim() !== '';
+            });
+
+            // Junta os elementos em uma string novamente
+            return elementos.join(', ');
         }
 
         function displayNotification(message) {
