@@ -254,21 +254,13 @@ $passVal = ($config->get("general.pass")!=='c21f969b5f03d33d43e04f8f136e7682') ?
                     </nav>
                 </div>
                 <div class="sb-sidenav-menu-heading">Configurações</div>
-                <a class="nav-link" href="includes/conversor.html">
-                    <div class="sb-nav-link-icon"><i class="bi bi-pc-display"></i></div>
-                    Conversor
-                </a>
                 <a class="nav-link" href="includes/conversor_API-based.html">
                     <div class="sb-nav-link-icon"><i class="bi bi-pc-display"></i></div>
-                    Conversor (API-based)
+                    Conversor
                 </a>
                 <a class="nav-link" href="includes/editor.php">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Editor
-                </a>
-                <a class="nav-link" href="includes/editor_API-based.php">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                    Editor (API-based)
                 </a>
                 <button type="button" onclick="logout()" class="nav-link">
                     <div class="sb-nav-link-icon"><i class="fas fa-sign-out"></i></div>

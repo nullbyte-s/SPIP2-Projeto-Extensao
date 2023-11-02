@@ -21,18 +21,27 @@ async function listUniqueCitiesAndStates(data) {
 	});
 }
 
-$(document).ready(function () {
-	$.ajax({
-		url: 'backend/get_data.php',
-		type: 'GET',
-		dataType: 'json',
-		success: function (data) {
-			listUniqueCitiesAndStates(data);
-		},
-		error: function (xhr, status, error) {
-			console.error('Erro ao obter dados:', status, error);
-		}
-	});
+// Abordagem antiga: carregava o JSON para cada script.js
+// $(document).ready(function () {
+// 	$.ajax({
+// 		url: 'backend/get_data.php',
+// 		type: 'GET',
+// 		dataType: 'json',
+// 		success: function (data) {
+// 			listUniqueCitiesAndStates(data);
+// 		},
+// 		error: function (xhr, status, error) {
+// 			console.error('Erro ao obter dados:', status, error);
+// 		}
+// 	});
+// });
+
+fetchData(function (error, data) {
+	if (error) {
+		console.error('Erro ao obter dados:', error);
+	} else {
+		listUniqueCitiesAndStates(data);
+	}
 });
 
 async function getCoordinatesFromCityDb(state, city) {
@@ -128,16 +137,25 @@ function hideLoading() {
 	document.getElementById('loading').style.display = 'none';
 }
 
-$(document).ready(function () {
-	$.ajax({
-		url: 'backend/get_data.php',
-		type: 'GET',
-		dataType: 'json',
-		success: function (data) {
-			drawMarkerGeoChart(data);
-		},
-		error: function (xhr, status, error) {
-			console.error('Erro ao obter dados:', status, error);
-		}
-	});
-});  
+// // Abordagem antiga: carregava o JSON para cada script.js
+// $(document).ready(function () {
+// 	$.ajax({
+// 		url: 'backend/get_data.php',
+// 		type: 'GET',
+// 		dataType: 'json',
+// 		success: function (data) {
+// 			drawMarkerGeoChart(data);
+// 		},
+// 		error: function (xhr, status, error) {
+// 			console.error('Erro ao obter dados:', status, error);
+// 		}
+// 	});
+// });
+
+fetchData(function (error, data) {
+	if (error) {
+		console.error('Erro ao obter dados:', error);
+	} else {
+		drawMarkerGeoChart(data);
+	}
+});
