@@ -128,7 +128,12 @@
                                 <i class="fas fa-map me-1"></i>
                                 Pacientes por Município
                             </div>
-                            <div class="card-body text-center" width="100%" height="100%" id="markerGeoChart"><canvas></canvas></div>
+                            <div style="position: relative;" class="card-body text-center" width="100%" height="100%" id="markerGeoChart">
+                                <div style="display: none;position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(255, 255, 255, 0.8);justify-content: center;align-items: center;z-index: 9999;" id="loading">
+                                    <img src="assets/img/loading.gif" alt="Carregando...">
+                                </div>
+                                <canvas></canvas>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-6">
