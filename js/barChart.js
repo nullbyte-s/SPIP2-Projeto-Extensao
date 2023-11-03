@@ -121,28 +121,28 @@ function drawBarChart(data) {
 
 
     // Cria e desenha os gráficos de barras
-    var sexChart = new google.visualization.BarChart(document.getElementById('sexChart'));
+    var sexChart = new google.visualization.BarChart(document.getElementById('sexBarChart'));
     sexChart.draw(sexData, sexOptions);
 
-    var ageChart = new google.visualization.BarChart(document.getElementById('ageChart'));
+    var ageChart = new google.visualization.BarChart(document.getElementById('ageBarChart'));
     ageChart.draw(ageData, ageOptions);
 
-    var cityChart = new google.visualization.BarChart(document.getElementById('cityChart'));
+    var cityChart = new google.visualization.BarChart(document.getElementById('cityBarChart'));
     cityChart.draw(cityDataTable, cityOptions);
 
-    var symptomsChart = new google.visualization.BarChart(document.getElementById('symptomsChart'));
+    var symptomsChart = new google.visualization.BarChart(document.getElementById('symptomsBarChart'));
     symptomsChart.draw(symptomDataTable, symptomOptions);
 
-    var comorbiditiesChart = new google.visualization.BarChart(document.getElementById('comorbiditiesChart'));
+    var comorbiditiesChart = new google.visualization.BarChart(document.getElementById('comorbiditiesBarChart'));
     comorbiditiesChart.draw(comorbidityDataTable, comorbidityOptions);
 
-    var evolutionChart = new google.visualization.BarChart(document.getElementById('evolutionChart'));
+    var evolutionChart = new google.visualization.BarChart(document.getElementById('evolutionBarChart'));
     evolutionChart.draw(evolutionData, evolutionOptions);
 
-    var vaccinationChart = new google.visualization.BarChart(document.getElementById('vaccinationChart'));
+    var vaccinationChart = new google.visualization.BarChart(document.getElementById('vaccinationBarChart'));
     vaccinationChart.draw(vaccinationData, vaccinationOptions);
 
-    var diagnosticHypothesisChart = new google.visualization.BarChart(document.getElementById('diagnosticHypothesisChart'));
+    var diagnosticHypothesisChart = new google.visualization.BarChart(document.getElementById('diagnosticHypothesisBarChart'));
     diagnosticHypothesisChart.draw(diagnosticHypothesisDataTable, diagnosticHypothesisOptions);
 }
 
@@ -241,14 +241,15 @@ google.charts.setOnLoadCallback(() => {
     //     }
     // });
 
-    // Acessa a variável jsonData (escopo global) - Obsoleto: se os dados demorarem a carregar, a variável não será chamada
-    // drawBarChart(jsonData);
+    // Acessa a variável jsonData (escopo global) - Obsoleto para alguns cenários: se os dados demorarem a carregar, a variável não será chamada
+    drawBarChart(jsonData);
 
-    fetchData(function (error, data) {
-        if (error) {
-            console.error('Erro ao obter dados:', error);
-        } else {
-            drawBarChart(data);
-        }
-    });
+    // // Alternativa à variável jsonData
+    // fetchData(function (error, data) {
+    //     if (error) {
+    //         console.error('Erro ao obter dados:', error);
+    //     } else {
+    //         drawBarChart(data);
+    //     }
+    // });
 });
