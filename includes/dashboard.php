@@ -1,3 +1,38 @@
+<style>
+    #pieTabs,
+    #barTabs {
+        position: relative;
+    }
+
+    #prevPieTab,
+    #nextPieTab,
+    #prevBarTab,
+    #nextBarTab {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    #prevPieTab:hover,
+    #nextPieTab:hover,
+    #prevBarTab:hover,
+    #nextBarTab:hover {
+        color: #FF5733;
+    }
+
+    #prevPieTab,
+    #prevBarTab {
+        left: 0;
+    }
+
+    #nextPieTab,
+    #nextBarTab {
+        right: 0;
+    }
+</style>
+
 <div id="layoutSidenav">
     <div id="layoutSidenav_content">
         <main>
@@ -46,15 +81,45 @@
                         <div class="col-md-7 pt-1 pt-md-0">
                             <div class="card text-center border-warning shadow-sm">
                                 <div class="card-body">
-                                    <div class="card-body text-center mx-auto w-100" style="overflow-x: auto; overflow-y: auto; max-height: 200px;">
-                                        <div id="sexPieChart"></div>
-                                        <div id="agePieChart"></div>
-                                        <div id="cityPieChart"></div>
-                                        <div id="symptomsPieChart"></div>
-                                        <div id="comorbiditiesPieChart"></div>
-                                        <div id="evolutionPieChart"></div>
-                                        <div id="vaccinationPieChart"></div>
-                                        <div id="diagnosticHypothesisPieChart"></div>
+                                    <div id="pieChartsTabs" class="card-body text-center mx-auto w-100" style="overflow-x: auto; overflow-y: auto; max-height: 400px;">                      
+                                        <ul class="nav nav-tabs d-flex justify-content-center align-items-center" id="pieTabs">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-toggle="tab" data-tab-target="sexPieChart" id="tabSexPieChart" style="cursor: pointer">Sexo</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" data-tab-target="agePieChart" id="tabAgePieChart" style="cursor: pointer">Faixa Etária</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" data-tab-target="cityPieChart" id="tabCityPieChart" style="cursor: pointer">Município</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" data-tab-target="symptomsPieChart" id="tabSymptomsPieChart" style="cursor: pointer">Sintomas</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" data-tab-target="comorbiditiesPieChart" id="tabComorbiditiesPieChart" style="cursor: pointer">Comorbidades</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" data-tab-target="evolutionPieChart" id="tabEvolutionPieChart" style="cursor: pointer">Evolução</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" data-tab-target="vaccinationPieChart" id="tabVaccinationPieChart" style="cursor: pointer">Vacinação</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" data-tab-target="diagnosticHypothesisPieChart" id="tabDiagnosticHypothesisPieChart" style="cursor: pointer">Diagnóstico</a>
+                                            </li>
+                                            <div class="bi bi-arrow-left-circle" id="prevPieTab"></div>
+                                            <div class="bi bi-arrow-right-circle" id="nextPieTab"></div>
+                                        </ul>
+                                        <div id="pieTabContent" class="tab-content">
+                                            <div class="tab-pane fade show active" id="sexPieChart"></div>
+                                            <div class="tab-pane fade" id="agePieChart"></div>
+                                            <div class="tab-pane fade" id="cityPieChart"></div>
+                                            <div class="tab-pane fade" id="symptomsPieChart"></div>
+                                            <div class="tab-pane fade" id="comorbiditiesPieChart"></div>
+                                            <div class="tab-pane fade" id="evolutionPieChart"></div>
+                                            <div class="tab-pane fade" id="vaccinationPieChart"></div>
+                                            <div class="tab-pane fade" id="diagnosticHypothesisPieChart"></div>
+                                        </div>
                                     </div>
                                     <h5 class="card-title pt-1"><i class="bi bi-pie-chart"></i>&nbsp;<span></span></h5>
                                     <p class="card-text"><b>Distribuição Percentual</b></p>
@@ -109,7 +174,57 @@
                         </div>
 
                     <div class="col-xl-9">
+                        
                         <div class="card mb-4 shadow-sm">
+                            <div class="card-header">
+                                <i class="fas fa-chart-bar me-1"></i>
+                                Contagem de Pacientes
+                            </div>
+                            <div class="card-body">
+                                <div id="barChartsTabs" class="card-body text-center mx-auto w-100" style="overflow-x: auto; overflow-y: auto; max-height: 450px;">                      
+                                    <ul class="nav nav-tabs d-flex justify-content-center align-items-center" id="barTabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" data-tab-target="sexPieChart" id="tabSexBarChart" style="cursor: pointer">Sexo</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" data-tab-target="ageBarChart" id="tabAgeBarChart" style="cursor: pointer">Faixa Etária</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" data-tab-target="cityBarChart" id="tabCityBarChart" style="cursor: pointer">Município</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" data-tab-target="symptomsBarChart" id="tabSymptomsBarChart" style="cursor: pointer">Sintomas</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" data-tab-target="comorbiditiesBarChart" id="tabComorbiditiesBarChart" style="cursor: pointer">Comorbidades</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" data-tab-target="evolutionBarChart" id="tabEvolutionBarChart" style="cursor: pointer">Evolução</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" data-tab-target="vaccinationBarChart" id="tabVaccinationBarChart" style="cursor: pointer">Vacinação</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" data-tab-target="diagnosticHypothesisBarChart" id="tabDiagnosticHypothesisBarChart" style="cursor: pointer">Diagnóstico</a>
+                                        </li>
+                                        <div class="bi bi-arrow-left-circle" id="prevBarTab"></div>
+                                        <div class="bi bi-arrow-right-circle" id="nextBarTab"></div>
+                                    </ul>
+                                    <div id="barTabContent" class="tab-content">
+                                        <div class="tab-pane fade show active" id="sexBarChart"></div>
+                                        <div class="tab-pane fade" id="ageBarChart"></div>
+                                        <div class="tab-pane fade" id="cityBarChart"></div>
+                                        <div class="tab-pane fade" id="symptomsBarChart"></div>
+                                        <div class="tab-pane fade" id="comorbiditiesBarChart"></div>
+                                        <div class="tab-pane fade" id="evolutionBarChart"></div>
+                                        <div class="tab-pane fade" id="vaccinationBarChart"></div>
+                                        <div class="tab-pane fade" id="diagnosticHypothesisBarChart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="card mb-4 shadow-sm">
                             <div class="card-header">
                                 <i class="fas fa-chart-bar me-1"></i>
                                 Contagem de Pacientes
@@ -124,7 +239,8 @@
                                 <div id="vaccinationBarChart"></div>
                                 <div id="diagnosticHypothesisBarChart"></div>
                             </div>
-                        </div>
+                        </div> -->
+
                     </div>
                 </div>
             <div class="card mt-5 shadow-sm">
@@ -134,7 +250,6 @@
                 </div>
                 <div class="card-body">
                     <table id="dataTable" class="table table-striped table-bordered"></table>
-                        <!-- <thead><tr></tr></thead><tbody></tbody> -->
                 </div>
             </div>
         </div>
@@ -154,9 +269,10 @@
         </footer>
     </div>
 </div>
+<script type="text/javascript" src="js/tabsNavigator.js"></script>
 <script type="text/javascript" src="js/jsonDataReceiver.js"></script>
-<script type="text/javascript" src="js/pieChart.js"></script>
 <script type="text/javascript" src="js/barChart.js"></script>
+<script type="text/javascript" src="js/pieChart.js"></script>
 <script type="text/javascript" src="js/markerGeoChart.js"></script>
 <script type="text/javascript" src="js/table.js"></script>
 <script type="text/javascript" src="js/weeksFilter.js"></script>

@@ -271,32 +271,33 @@ $passVal = ($config->get("general.pass")!=='c21f969b5f03d33d43e04f8f136e7682') ?
           </nav>
         </div>
       </div>
-      <div id="content"></div>
+      <div id="<?php echo $auth ? 'content' : ''; ?>"></div>
         <?php //include 'includes/dashboard.php'; ?>
     </div>
 
     <!--Modal de Login -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel"><i class="bi bi-shield-lock"></i>&nbsp;Autenticação</h5>
-        </div>
-        <div class="modal-body">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel"><i class="bi bi-shield-lock"></i>&nbsp;Autenticação</h5>
+          </div>
+          <div class="modal-body">
             <div class='alert alert-info' role='alert'>Informe a senha para acessar o painel</div>
             <form onkeydown="return event.key != 'Enter';">
-                <div class="input-group">
-                    <span class="input-group-text" id="myPsw"><i class="bi bi-key"></i></span>
-                    <input type="password" id="lpwd" class="form-control" placeholder="" aria-label="Senha" aria-describedby="myPsw" autofocus>
-                    <div class="invalid-feedback">Senha inválida!</div>
-                </div>
+              <div class="input-group">
+                <span class="input-group-text" id="myPsw"><i class="bi bi-key"></i></span>
+                <input type="password" id="lpwd" class="form-control" placeholder="" aria-label="Senha" aria-describedby="myPsw" autofocus>
+                <div class="invalid-feedback">Senha inválida!</div>
+              </div>
             </form>
-        </div>
+          </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-block btn-primary" onclick="loginToServer()" id="lbtn">Entrar</button>
+          <button type="button" class="btn btn-block btn-primary" onclick="loginToServer()" id="lbtn">Entrar</button>
         </div>
+      </div>
     </div>
-
+    
     <script type="text/javascript" src="js/scripts.js"></script>
     <script type="text/javascript" src="js/bootstrap-5.3.2.bundle.min.js"></script>
     <script type="text/javascript" src="js/mdtoast.min.js?v=2.0.2"></script>

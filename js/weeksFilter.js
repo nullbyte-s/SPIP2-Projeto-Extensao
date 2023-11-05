@@ -39,10 +39,8 @@ function fillWeekDropdown(data) {
         drawBarChart(data);
         drawPieChart(data);
         // // Em desenvolvimento
-        // $('#patient-by-city').load(location.href + ' #patient-by-city');
         // drawMarkerGeoChart(data);
-        // $('#dataTable').load(location.href + ' #dataTable');
-        // populateDataTable(data)
+        populateDataTable(data);
     }
 
     // Adiciona um ouvinte de evento para o evento de alteração do dropdown

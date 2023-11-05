@@ -19,5 +19,4 @@ function fetchData(callback) {
     });
 }
 
-// Adiciona a variável ao escopo global
 window.jsonData = jsonData;

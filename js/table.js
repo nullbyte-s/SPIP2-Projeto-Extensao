@@ -49,10 +49,10 @@ function formatarArrayTexto(data) {
 
 function populateDataTable(data) {
 	if ($.fn.DataTable.isDataTable('#dataTable')) {
-		// 	$('#dataTable').DataTable().destroy();
+		$('#dataTable').DataTable().destroy();
 		// 	table.clear();
 		// 	table.ajax.reload();
-		table.clear().destroy();
+		// table.clear().destroy();
 	}
 
 	var table = $('#dataTable').DataTable({

@@ -1,4 +1,4 @@
-function drawBarChart(data) {
+function drawBarChart(data, tabIndex = 0) {
     // Contagem de pacientes por sexo
     var sexData = google.visualization.arrayToDataTable([
         ['Sexo', 'Número de Pacientes'],
@@ -122,28 +122,54 @@ function drawBarChart(data) {
 
     // Cria e desenha os gráficos de barras
     var sexChart = new google.visualization.BarChart(document.getElementById('sexBarChart'));
+    sexChart.clearChart();
     sexChart.draw(sexData, sexOptions);
 
     var ageChart = new google.visualization.BarChart(document.getElementById('ageBarChart'));
+    ageChart.clearChart();
     ageChart.draw(ageData, ageOptions);
 
     var cityChart = new google.visualization.BarChart(document.getElementById('cityBarChart'));
+    cityChart.clearChart();
     cityChart.draw(cityDataTable, cityOptions);
 
     var symptomsChart = new google.visualization.BarChart(document.getElementById('symptomsBarChart'));
+    symptomsChart.clearChart();
     symptomsChart.draw(symptomDataTable, symptomOptions);
 
     var comorbiditiesChart = new google.visualization.BarChart(document.getElementById('comorbiditiesBarChart'));
+    comorbiditiesChart.clearChart();
     comorbiditiesChart.draw(comorbidityDataTable, comorbidityOptions);
 
     var evolutionChart = new google.visualization.BarChart(document.getElementById('evolutionBarChart'));
+    evolutionChart.clearChart();
     evolutionChart.draw(evolutionData, evolutionOptions);
 
     var vaccinationChart = new google.visualization.BarChart(document.getElementById('vaccinationBarChart'));
+    vaccinationChart.clearChart();
     vaccinationChart.draw(vaccinationData, vaccinationOptions);
 
     var diagnosticHypothesisChart = new google.visualization.BarChart(document.getElementById('diagnosticHypothesisBarChart'));
+    diagnosticHypothesisChart.clearChart();
     diagnosticHypothesisChart.draw(diagnosticHypothesisDataTable, diagnosticHypothesisOptions);
+
+    if (tabIndex === 0) {
+        sexChart.draw(sexData, sexOptions);
+    } else if (tabIndex === 1) {
+        ageChart.draw(ageData, ageOptions);
+    } else if (tabIndex === 2) {
+        cityChart.draw(cityDataTable, cityOptions);
+    } else if (tabIndex === 3) {
+        symptomsChart.draw(symptomDataTable, symptomOptions);
+    } else if (tabIndex === 4) {
+        comorbiditiesChart.draw(comorbidityDataTable, comorbidityOptions);
+    } else if (tabIndex === 5) {
+        evolutionChart.draw(evolutionData, evolutionOptions);
+    } else if (tabIndex === 6) {
+        vaccinationChart.draw(vaccinationData, vaccinationOptions);
+    } else if (tabIndex === 7) {
+        diagnosticHypothesisChart.draw(diagnosticHypothesisDataTable, diagnosticHypothesisOptions);
+    }
 }
 
 function countOccurrencesByValue(data, key, value) {
@@ -224,32 +250,61 @@ function countOccurrencesByDiagnosticHypothesis(data, key, diagnosticHypothesis)
     }, 0);
 }
 
-// Executa a função de desenho quando o documento estiver pronto
-google.charts.load('current', { 'packages': ['corechart'] });
-google.charts.setOnLoadCallback(() => {
+// Captura os IDs únicos das suas abas
+var tabsContainer = document.getElementById('barTabs');
+var tabs = tabsContainer.querySelectorAll('.nav-link');
 
-    // // Abordagem antiga: carregava o JSON para cada script.js
-    // $.ajax({
-    //     url: 'backend/get_data.php',
-    //     type: 'GET',
-    //     dataType: 'json',
-    //     success: function (data) {
-    //         drawBarChart(data);
-    //     },
-    //     error: function (xhr, status, error) {
-    //         console.error('Erro ao obter dados:', status, error);
-    //     }
-    // });
-
-    // Acessa a variável jsonData (escopo global) - Obsoleto para alguns cenários: se os dados demorarem a carregar, a variável não será chamada
-    drawBarChart(jsonData);
-
-    // // Alternativa à variável jsonData
-    // fetchData(function (error, data) {
-    //     if (error) {
-    //         console.error('Erro ao obter dados:', error);
-    //     } else {
-    //         drawBarChart(data);
-    //     }
-    // });
+tabs.forEach(function (tab, index) {
+    tab.addEventListener('click', function (event) {
+        event.preventDefault();
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(() => {
+            fetchData(function (error, data) {
+                if (error) {
+                    console.error('Erro ao obter dados:', error);
+                } else {
+                    // Chama a função para desenhar o gráfico da aba clicada
+                    drawBarChart(jsonData, data);
+                }
+            });
+        });
+    });
 });
+
+// Carrega os gráficos de barras para a primeira aba inicialmente
+if (!window.jsonData) {
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(() => {
+        drawBarChart(jsonData);
+    });
+}
+
+// // Executa a função de desenho quando o documento estiver pronto
+// google.charts.load('current', { 'packages': ['corechart'] });
+// google.charts.setOnLoadCallback(() => {
+
+// // Abordagem antiga: carregava o JSON para cada script.js
+// $.ajax({
+//     url: 'backend/get_data.php',
+//     type: 'GET',
+//     dataType: 'json',
+//     success: function (data) {
+//         drawBarChart(data);
+//     },
+//     error: function (xhr, status, error) {
+//         console.error('Erro ao obter dados:', status, error);
+//     }
+// });
+
+// Acessa a variável jsonData (escopo global) - Obsoleto para alguns cenários: se os dados demorarem a carregar, a variável não será chamada
+// drawBarChart(jsonData);
+
+// // Alternativa à variável jsonData
+// fetchData(function (error, data) {
+//     if (error) {
+//         console.error('Erro ao obter dados:', error);
+//     } else {
+//         drawBarChart(data);
+//     }
+// });
+// });
