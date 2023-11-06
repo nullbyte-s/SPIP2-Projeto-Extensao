@@ -61,6 +61,15 @@ document.addEventListener('click', function (event) {
     }
 });
 
+document.getElementById('dashboardLink').addEventListener('click', function (event) {
+    var target = event.target;
+
+    if (target.getAttribute('href') === 'includes/dashboard.php') {
+        event.preventDefault();
+        location.reload();
+    }
+});
+
 var prevPieTabBtn = document.getElementById('prevPieTab');
 var nextPieTabBtn = document.getElementById('nextPieTab');
 var prevBarTabBtn = document.getElementById('prevBarTab');

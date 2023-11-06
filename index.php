@@ -249,7 +249,7 @@ $passVal = ($config->get("general.pass")!=='c21f969b5f03d33d43e04f8f136e7682') ?
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="includes/dashboard.php">Gráficos</a>
+                        <a class="nav-link" id="dashboardLink" href="includes/dashboard.php">Gráficos</a>
                         <a class="nav-link" href="includes/summary.html">Relatório</a>
                     </nav>
                 </div>

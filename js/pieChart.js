@@ -126,9 +126,22 @@ tabs.forEach(function (tab, index) {
 });
 
 // Carrega os gráficos para a primeira aba inicialmente
+// if (!window.jsonData || shouldReloadCharts()) {
 if (!window.jsonData) {
     google.charts.load('current', { 'packages': ['corechart'] });
     google.charts.setOnLoadCallback(() => {
         drawPieChart(jsonData);
     });
 }
+
+// // Função para verificar se os gráficos devem ser recarregados
+// function shouldReloadCharts() {
+//     document.getElementById('dashboardLink').addEventListener('click', function (event) {
+//         var target = event.target;
+
+//         if (target.getAttribute('href') === 'includes/dashboard.php') {
+//             event.preventDefault();
+//             drawPieChart(window.jsonData);
+//         }
+//     });
+// }

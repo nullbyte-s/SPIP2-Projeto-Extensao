@@ -41,8 +41,11 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
-                <label for="semanaDropdown">Filtrar por semana:</label>
-                <select id="semanaDropdown" name="semana"></select>
+                <label for="filterOptionsDropdown">Filtrar por:</label>
+                <select id="filterOptionsDropdown" name="filterOptions"></select>
+                <select id="selectedFilterOptionDropdown" name="selectedFilterOption"></select>
+                <!-- <label for="semanaDropdown">Filtrar por semana:</label> -->
+                <!-- <select id="semanaDropdown" name="semana"></select> -->
                 <div class="row pt-3">
                     <div class="col-sm-8 pt-1 pt-md-0">
                         <div class="card shadow-sm">
@@ -275,4 +278,4 @@
 <script type="text/javascript" src="js/pieChart.js"></script>
 <script type="text/javascript" src="js/markerGeoChart.js"></script>
 <script type="text/javascript" src="js/table.js"></script>
-<script type="text/javascript" src="js/weeksFilter.js"></script>
+<script type="text/javascript" src="js/filters.js"></script>
