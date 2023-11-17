@@ -30,9 +30,9 @@ fetchData(function (error, data) {
         selectedFilterOptionDropdown.style.display = 'none';
 
         // Função para atualizar dados e gráficos
-        function updateDataAndCharts(data) {
-            drawBarChart(data);
-            drawPieChart(data);
+        function updateDataAndCharts(data, tabIndex) {
+            drawBarChart(data, tabIndex);
+            drawPieChart(data, tabIndex);
             // // Em desenvolvimento
             // drawMarkerGeoChart(data);
             populateDataTable(data);
@@ -92,8 +92,17 @@ fetchData(function (error, data) {
             // Atualiza window.jsonData com os dados filtrados
             window.jsonData = filteredData;
 
+            const timeLineTabs = document.getElementById('timeLineTabs');
+            const pieTabs = document.getElementById('pieTabs');
+            const barTabs = document.getElementById('barTabs');
+            const timeLineTabLinks = timeLineTabs.querySelectorAll('.nav-link');
+            const pieTabLinks = pieTabs.querySelectorAll('.nav-link');
+            const barTabLinks = barTabs.querySelectorAll('.nav-link');
+            const allTabs = [...timeLineTabLinks, ...pieTabLinks, ...barTabLinks];
+
             // Chama as funções que utilizam a nova window.jsonData após a atualização
-            updateDataAndCharts(window.jsonData);
+            const activeTabIndex = Array.from(allTabs).findIndex(tab => tab.classList.contains('active'));
+            updateDataAndCharts(window.jsonData, activeTabIndex);
         });
     }
 });

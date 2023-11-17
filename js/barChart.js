@@ -153,23 +153,23 @@ function drawBarChart(data, tabIndex = 0) {
     diagnosticHypothesisChart.clearChart();
     diagnosticHypothesisChart.draw(diagnosticHypothesisDataTable, diagnosticHypothesisOptions);
 
-    if (tabIndex === 0) {
-        sexChart.draw(sexData, sexOptions);
-    } else if (tabIndex === 1) {
-        ageChart.draw(ageData, ageOptions);
-    } else if (tabIndex === 2) {
-        cityChart.draw(cityDataTable, cityOptions);
-    } else if (tabIndex === 3) {
-        symptomsChart.draw(symptomDataTable, symptomOptions);
-    } else if (tabIndex === 4) {
-        comorbiditiesChart.draw(comorbidityDataTable, comorbidityOptions);
-    } else if (tabIndex === 5) {
-        evolutionChart.draw(evolutionData, evolutionOptions);
-    } else if (tabIndex === 6) {
-        vaccinationChart.draw(vaccinationData, vaccinationOptions);
-    } else if (tabIndex === 7) {
-        diagnosticHypothesisChart.draw(diagnosticHypothesisDataTable, diagnosticHypothesisOptions);
-    }
+    // if (tabIndex === 0) {
+    //     sexChart.draw(sexData, sexOptions);
+    // } else if (tabIndex === 1) {
+    //     ageChart.draw(ageData, ageOptions);
+    // } else if (tabIndex === 2) {
+    //     cityChart.draw(cityDataTable, cityOptions);
+    // } else if (tabIndex === 3) {
+    //     symptomsChart.draw(symptomDataTable, symptomOptions);
+    // } else if (tabIndex === 4) {
+    //     comorbiditiesChart.draw(comorbidityDataTable, comorbidityOptions);
+    // } else if (tabIndex === 5) {
+    //     evolutionChart.draw(evolutionData, evolutionOptions);
+    // } else if (tabIndex === 6) {
+    //     vaccinationChart.draw(vaccinationData, vaccinationOptions);
+    // } else if (tabIndex === 7) {
+    //     diagnosticHypothesisChart.draw(diagnosticHypothesisDataTable, diagnosticHypothesisOptions);
+    // }
 }
 
 function countOccurrencesByValue(data, key, value) {
@@ -250,34 +250,26 @@ function countOccurrencesByDiagnosticHypothesis(data, key, diagnosticHypothesis)
     }, 0);
 }
 
-// Captura os IDs únicos das suas abas
-var tabsContainer = document.getElementById('barTabs');
-var tabs = tabsContainer.querySelectorAll('.nav-link');
+// // Captura os IDs únicos das suas abas
+// var tabsContainer = document.getElementById('barTabs');
+// var tabs = tabsContainer.querySelectorAll('.nav-link');
 
-tabs.forEach(function (tab, index) {
-    tab.addEventListener('click', function (event) {
-        event.preventDefault();
-        google.charts.load('current', { 'packages': ['corechart'] });
-        google.charts.setOnLoadCallback(() => {
-            fetchData(function (error, data) {
-                if (error) {
-                    console.error('Erro ao obter dados:', error);
-                } else {
-                    // Chama a função para desenhar o gráfico da aba clicada
-                    drawBarChart(jsonData, data);
-                }
-            });
-        });
-    });
-});
-
-// Carrega os gráficos de barras para a primeira aba inicialmente
-if (!window.jsonData) {
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(() => {
-        drawBarChart(jsonData);
-    });
-}
+// tabs.forEach(function (tab, index) {
+//     tab.addEventListener('click', function (event) {
+//         event.preventDefault();
+//         google.charts.load('current', { 'packages': ['corechart'] });
+//         google.charts.setOnLoadCallback(() => {
+//             fetchData(function (error, data) {
+//                 if (error) {
+//                     console.error('Erro ao obter dados:', error);
+//                 } else {
+//                     // Chama a função para desenhar o gráfico da aba clicada
+//                     drawBarChart(jsonData, data);
+//                 }
+//             });
+//         });
+//     });
+// });
 
 // // Executa a função de desenho quando o documento estiver pronto
 // google.charts.load('current', { 'packages': ['corechart'] });

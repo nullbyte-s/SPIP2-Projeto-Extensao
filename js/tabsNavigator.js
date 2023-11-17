@@ -1,3 +1,11 @@
+const timeLineTabs = document.getElementById('timeLineTabs');
+const pieTabs = document.getElementById('pieTabs');
+const barTabs = document.getElementById('barTabs');
+const timeLineTabLinks = timeLineTabs.querySelectorAll('.nav-link');
+const pieTabLinks = pieTabs.querySelectorAll('.nav-link');
+const barTabLinks = barTabs.querySelectorAll('.nav-link');
+const allTabs = [...timeLineTabLinks, ...pieTabLinks, ...barTabLinks];
+
 document.addEventListener('click', function (event) {
     var target = event.target;
 
@@ -5,26 +13,31 @@ document.addEventListener('click', function (event) {
         event.preventDefault();
 
         var tabId = target.dataset.target;
-        var pieTabs = document.getElementById('pieTabs');
-        var barTabs = document.getElementById('barTabs');
+        var timeLineTabContent = document.querySelector('#timeLineChartsTabs .tab-content');
         var pieTabContent = document.querySelector('#pieChartsTabs .tab-content');
         var barTabContent = document.querySelector('#barChartsTabs .tab-content');
 
-        var pieLinksContainer = document.getElementById('pieTabs');
-        var pieTabLinks = pieLinksContainer.querySelectorAll('.nav-link');
-
-        var barLinksContainer = document.getElementById('barTabs');
-        var barTabLinks = barLinksContainer.querySelectorAll('.nav-link');
-
-        pieTabLinks.forEach(function (tabLink) {
+        allTabs.forEach(function (tabLink) {
             tabLink.classList.remove('active');
         });
 
-        barTabLinks.forEach(function (tabLink) {
-            tabLink.classList.remove('active');
-        });
+        // timeLineTabLinks.forEach(function (tabLink) {
+        //     tabLink.classList.remove('active');
+        // });
+
+        // pieTabLinks.forEach(function (tabLink) {
+        //     tabLink.classList.remove('active');
+        // });
+
+        // barTabLinks.forEach(function (tabLink) {
+        //     tabLink.classList.remove('active');
+        // });
 
         target.classList.add('active');
+
+        var timeLineTabContentsContainer = document.getElementById('timeLineTabContent');
+        var timeLineTabContents = timeLineTabContentsContainer.querySelectorAll('.tab-pane');
+        var activeTimeLineTabIndex = Array.from(timeLineTabLinks).indexOf(target);
 
         var pieTabContentsContainer = document.getElementById('pieTabContent');
         var pieTabContents = pieTabContentsContainer.querySelectorAll('.tab-pane');
@@ -35,6 +48,18 @@ document.addEventListener('click', function (event) {
         var activeBarTabIndex = Array.from(barTabLinks).indexOf(target);
 
 
+        if (activeTimeLineTabIndex >= 0 && activeTimeLineTabIndex < timeLineTabContents.length) {
+            var activeTimeLineTabContent = timeLineTabContents[activeTimeLineTabIndex];
+            timeLineTabContents.forEach(function (tab) {
+                tab.classList.remove('show');
+                tab.style.display = 'none';
+            });
+            activeTimeLineTabContent.classList.add('show');
+            activeTimeLineTabContent.offsetHeight; // Trigger a reflow, forçando um redesenho
+            activeTimeLineTabContent.style.display = 'block';
+            updateTimeLineCharts();
+        }
+
         if (activePieTabIndex >= 0 && activePieTabIndex < pieTabContents.length) {
             var activePieTabContent = pieTabContents[activePieTabIndex];
             pieTabContents.forEach(function (tab) {
@@ -42,7 +67,7 @@ document.addEventListener('click', function (event) {
                 tab.style.display = 'none';
             });
             activePieTabContent.classList.add('show');
-            activePieTabContent.offsetHeight; // Trigger a reflow, forçando um redesenho
+            activePieTabContent.offsetHeight;
             activePieTabContent.style.display = 'block';
             updatePieCharts();
         }
@@ -58,6 +83,21 @@ document.addEventListener('click', function (event) {
             activeBarTabContent.style.display = 'block';
             updateBarCharts();
         }
+
+        allTabs.forEach(function (tab, index) {
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(() => {
+                fetchData(function (error, data) {
+                    if (error) {
+                        console.error('Erro ao obter dados:', error);
+                    } else {
+                        // Chama a função para desenhar o gráfico da aba clicada
+                        var tabIndex = index;
+                        loadCharts(data, tabIndex);
+                    }
+                });
+            });
+        });
     }
 });
 
@@ -87,7 +127,7 @@ prevPieTabBtn.addEventListener('click', function () {
 });
 
 nextPieTabBtn.addEventListener('click', function () {
-    var totalTabs = document.querySelectorAll('#barTabs .nav-item').length;
+    var totalTabs = document.querySelectorAll('#pieTabs .nav-item').length;
     if (startPieTabIndex + visiblePieTabs < totalTabs) {
         startPieTabIndex += 1;
         updateVisibleTabs();
@@ -136,6 +176,23 @@ function updateVisibleTabs() {
     var visibleBarTabLinks = Array.from(barTabs).slice(startBarTabIndex, startBarTabIndex + visibleBarTabs);
     var activeBarTabLink = visibleBarTabLinks.find(tab => tab.classList.contains('active'));
 
+    var visibleTimeLineTabLinks = Array.from(timeLineTabs);
+    var activeTimeLineTabLink = visibleTimeLineTabLinks.find(tab => tab.classList.contains('active'));
+
+    // if (activeTimeLineTabLink) {
+    //     var activeTimeLineTabIndex = Array.from(timeLineTabs).indexOf(activeTimeLineTabLink);
+
+    //     var timeLineTabContentsContainer = document.getElementById('timeLineChartsTabs');
+    //     var timeLineTabContents = timeLineTabContentsContainer.querySelectorAll('.tab-content .tab-pane');
+    //     timeLineTabContents.forEach(function (tab) {
+    //         tab.classList.remove('show');
+    //     });
+
+    //     if (timeLineTabContents && timeLineTabContents.length > 0) {
+    //         timeLineTabContents.classList.add('show');
+    //     }
+    // }
+
     if (activePieTabLink) {
         var activePieTabIndex = Array.from(pieTabs).indexOf(activePieTabLink);
 
@@ -165,11 +222,19 @@ function updateVisibleTabs() {
     }
 }
 
+// Força o redesenho e atualizar os gráficos de linha do tempo
+function updateTimeLineCharts() {
+    var activeTabLinkContainer = document.getElementById('timeLineTabs');
+    var activeTimeLineTabLink = activeTabLinkContainer.querySelector('.nav-link.active');
+    var activeTabIndex = Array.from(activeTabLinkContainer.querySelectorAll('.nav-link')).indexOf(activeTimeLineTabLink);
+    loadCharts(window.jsonData, activeTabIndex);
+}
+
 // Força o redesenho e atualizar os gráficos de pizza
 function updatePieCharts() {
     var activeTabLinkContainer = document.getElementById('pieTabs');
     var activePieTabLink = activeTabLinkContainer.querySelector('.nav-link.active');
-    var activeTabIndex = Array.from(tabs).indexOf(activePieTabLink);
+    var activeTabIndex = Array.from(activeTabLinkContainer.querySelectorAll('.nav-link')).indexOf(activePieTabLink);
     loadCharts(window.jsonData, activeTabIndex);
 }
 
@@ -177,9 +242,95 @@ function updatePieCharts() {
 function updateBarCharts() {
     var activeTabLinkContainer = document.getElementById('barTabs');
     var activeBarTabLink = activeTabLinkContainer.querySelector('.nav-link.active');
-    var activeTabIndex = Array.from(tabs).indexOf(activeBarTabLink);
+    var activeTabIndex = Array.from(activeTabLinkContainer.querySelectorAll('.nav-link')).indexOf(activeBarTabLink);
     loadCharts(window.jsonData, activeTabIndex);
+}
+
+// Função para carregar os gráficos
+function loadCharts(tabIndex, chartType) {
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(() => {
+        fetchData(function (error, data) {
+            if (error) {
+                console.error('Erro ao obter dados:', error);
+            } else {
+                if (chartType === 'timeline') {
+                    drawTimelineChart(data, tabIndex);
+                } else if (chartType === 'pie') {
+                    drawPieChart(data, tabIndex);
+                } else if (chartType === 'bar') {
+                    drawBarChart(data, tabIndex);
+                }
+            }
+        });
+    });
 }
 
 // Inicializa as abas visíveis
 updateVisibleTabs();
+
+// Função para carregar os gráficos
+function loadCharts(tabIndex, chartType) {
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(() => {
+        fetchData(function (error, data) {
+            if (error) {
+                console.error('Erro ao obter dados:', error);
+            } else {
+                if (chartType === 'timeline') {
+                    drawTimelineChart(data, tabIndex);
+                } else if (chartType === 'pie') {
+                    drawPieChart(data, tabIndex);
+                } else if (chartType === 'bar') {
+                    drawBarChart(data, tabIndex);
+                }
+            }
+        });
+    });
+}
+
+timeLineTabLinks.forEach(function (tab, index) {
+    tab.addEventListener('click', function (event) {
+        event.preventDefault();
+        var tabIndex = index;
+        // Chama a função para desenhar o gráfico da aba clicada (gráfico de pizza)
+        loadCharts(tabIndex, 'timeline');
+    });
+});
+
+pieTabLinks.forEach(function (tab, index) {
+    tab.addEventListener('click', function (event) {
+        event.preventDefault();
+        var tabIndex = index;
+        // Chama a função para desenhar o gráfico da aba clicada (gráfico de pizza)
+        loadCharts(tabIndex, 'pie');
+    });
+});
+
+pieTabLinks.forEach(function (tab, index) {
+    tab.addEventListener('click', function (event) {
+        event.preventDefault();
+        var tabIndex = index;
+        // Chama a função para desenhar o gráfico da aba clicada (gráfico de pizza)
+        loadCharts(tabIndex, 'pie');
+    });
+});
+
+barTabLinks.forEach(function (tab, index) {
+    tab.addEventListener('click', function (event) {
+        event.preventDefault();
+        var tabIndex = index;
+        // Chama a função para desenhar o gráfico da aba clicada (gráfico de barras)
+        loadCharts(tabIndex, 'bar');
+    });
+});
+
+// Carrega os gráficos para a primeira aba inicialmente
+if (!window.jsonData) {
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(() => {
+        drawTimelineChart(jsonData);
+        drawBarChart(jsonData);
+        drawPieChart(jsonData);
+    });
+}
