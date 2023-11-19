@@ -326,11 +326,24 @@ barTabLinks.forEach(function (tab, index) {
 });
 
 // Carrega os gráficos para a primeira aba inicialmente
-if (!window.jsonData) {
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(() => {
-        drawTimelineChart(jsonData);
-        drawBarChart(jsonData);
-        drawPieChart(jsonData);
-    });
-}
+// if (!window.jsonData) {
+//     google.charts.load('current', { 'packages': ['corechart'] });
+//     google.charts.setOnLoadCallback(() => {
+//         drawTimelineChart(jsonData);
+//         drawBarChart(jsonData);
+//         drawPieChart(jsonData);
+//     });
+// }
+
+(function checkAndLoadCharts() {
+    if (window.jsonData) {
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(() => {
+            drawTimelineChart(window.jsonData);
+            drawBarChart(window.jsonData);
+            drawPieChart(window.jsonData);
+        });
+    } else {
+        setTimeout(checkAndLoadCharts, 1000);
+    }
+})();
