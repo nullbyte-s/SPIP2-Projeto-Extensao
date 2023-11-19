@@ -4,7 +4,10 @@ async function listUniqueCitiesAndStates(data) {
 
 	// Itera sobre o array de objetos e adiciona cidades e estados únicos ao conjunto
 	data.forEach(entry => {
-		uniqueCitiesAndStates.add(`${entry.municipio}, ${entry.estado}`);
+		// Verifica se a cidade e o estado não são vazios ou nulos antes de adicionar ao conjunto
+		if (entry.municipio && entry.estado) {
+			uniqueCitiesAndStates.add(`${entry.municipio}, ${entry.estado}`);
+		}
 	});
 
 	// Converte o conjunto de volta para um array
@@ -12,12 +15,12 @@ async function listUniqueCitiesAndStates(data) {
 
 	// Exibe a lista de cidades e estados únicos
 	uniqueArray.forEach(async item => {
-		console.log(item);
+		// console.log(item);
 		const [city, state] = item.split(', ');
 
 		// Chama a função getCoordinatesFromCityDb para obter as coordenadas de cada cidade
 		const coordinates = await getCoordinatesFromCityDb(state, city);
-		console.log(`Coordenadas de ${city}, ${state}:`, coordinates);
+		// console.log(`Coordenadas de ${city}, ${state}:`, coordinates);
 	});
 }
 

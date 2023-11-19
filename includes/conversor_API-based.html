@@ -73,7 +73,9 @@
                                 "agravo": rowData[16] || "",
                                 "data_agravo": formatarData(rowData[17]) || "",
                                 "finalizacao_do_caso": rowData[18] || "",
-                                "data_finalizacao": formatarData(rowData[19]) || "",
+                                // Será implementado no futuro, fora do escopo do projeto
+                                // "detalhes_finalizacao": converterDadosArray(rowData[19]) || "",
+                                "data_finalizacao": formatarData(rowData[20]) || "",
                             };
 
                             jsonArray.push(jsonObject);
@@ -114,8 +116,8 @@
         }
 
         function converterDadosArray(data) {
-            if (!data || typeof data !== 'string') {
-                return data;
+            if (!data || typeof data !== 'string' || data.trim() === '') {
+                return '[]';
             }
 
             // Divide os dados usando o ponto e vírgula como delimitador

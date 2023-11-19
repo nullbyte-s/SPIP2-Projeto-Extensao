@@ -107,7 +107,10 @@ function displayDashboardInfo(data) {
         .map(([comorbidity, count]) => [comorbidity, count]);
 
     // Top 3 Municípios com Mais Casos
-    const topCities = countOccurrences(data.map(patient => patient.municipio))
+    const topCities = countOccurrences(data
+        .map(patient => patient.municipio)
+        .filter(city => city.trim() !== '')
+    )
         .sort((a, b) => b[1] - a[1])
         .slice(0, 3)
         .map(entry => entry[0]);
