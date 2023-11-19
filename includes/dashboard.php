@@ -51,20 +51,8 @@
                     <div class="col-sm-5 pt-1 pt-md-0">
                         <div class="card shadow-sm">
                             <div class="card-header border-primary text-primary"><i class="bi bi-info-circle"></i>&nbsp;Informações gerais</div>
-                            <div class="card-body">
-                                <h5 class="card-title"><span id="overallstate"></span></h5>
-                                <p class="card-text"></p>
-                                <?php
-                                    if(isset($_SESSION["setup"])){
-                                        ?>
-                                        <div class="alert alert-info alert-dismissible fade show" role="alert"><i class="bi bi-info-circle"></i>&nbsp;Configuração finalizada! Hospital Dashboard está pronto.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
-                                <?php
-                                    unset($_SESSION["setup"]);
-                                    }
-                                ?>
-                                <h4><b>Lorem ipsum</b></h4>
-                                <hr>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi nemo rerum dolores vel nam impedit ut! Repellat voluptates consectetur, sunt possimus culpa soluta in corrupti ipsam facere quaerat ex, totam reiciendis aspernatur fugit, laborum nihil.</p>
+                            <div class="card-body" style="overflow-x: auto; overflow-y: auto; max-height: 450px;">
+                                <p class="card-text" id="generalInfo"></p>
                             </div>
                         </div>
                     </div>
@@ -144,7 +132,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-md-5 pt-1 pt-md-0">
-                            <div class="card text-center border-info shadow-sm">
+                            <div class="card text-center border-primary shadow-sm">
                                 <div class="card-body">
                                     <div style="position: relative; height: 200px;" class="card-body text-center" width="100%" height="100%" id="markerGeoChart">
                                         <div style="display: none;position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(255, 255, 255, 0.8);justify-content: center;align-items: center;z-index: 2;" id="loading">
@@ -159,13 +147,13 @@
                         </div>
                     </div>
                     <div class="row pt-4">
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-info text-white mb-4 shadow-sm">
-                                <div class="card-header border-primary text-white"><i class="bi bi-clipboard-check"></i>&nbsp;Destaques</div>
-                                <p class="card-footer d-flex align-items-center justify-content-between">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt delectus ab pariatur vel sed? Maxime quasi veniam laboriosam illum modi, amet aperiam suscipit error, repellat laborum, autem voluptates excepturi inventore voluptas quae facilis. Perferendis amet sint illum architecto officiis sed enim illo quibusdam recusandae tempore repellat et, libero quia labore.</p>
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card border-info mb-4 shadow-sm" style="overflow-x: auto; overflow-y: auto; max-height: 500px;">
+                                <div class="card-header border-primary"><i class="bi bi-clipboard-check"></i>&nbsp;Destaques</div>
+                                <p class="card-footer text-warning text-justify d-flex justify-content-between" id="highlights"></p>
                             </div>
                         </div>
-                        <div class="col-xl-9">
+                        <div class="col-xl-8">
                             <div class="card mb-4 shadow-sm">
                                 <div class="card-header">
                                     <i class="fas fa-chart-bar me-1"></i>
@@ -261,10 +249,12 @@
     </div>
 </div>
 <script type="text/javascript" src="js/jsonDataReceiver.js"></script>
+<script type="text/javascript" src="js/timeLineChart.js"></script>
 <script type="text/javascript" src="js/pieChart.js"></script>
 <script type="text/javascript" src="js/barChart.js"></script>
-<script type="text/javascript" src="js/timeLineChart.js"></script>
 <script type="text/javascript" src="js/markerGeoChart.js"></script>
 <script type="text/javascript" src="js/table.js"></script>
 <script type="text/javascript" src="js/tabsNavigator.js"></script>
 <script type="text/javascript" src="js/filters.js"></script> 
+<script type="text/javascript" src="js/generalInfo.js"></script> 
+<script type="text/javascript" src="js/highlights.js"></script> 

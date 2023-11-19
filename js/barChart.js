@@ -99,7 +99,7 @@ function drawBarChart(data, tabIndex = 0) {
     function createChartOptions(title) {
         return {
             title: `Distribuição por ${title}`,
-            width: 700,
+            width: 600,
             height: 350,
             legend: { position: 'top', maxLines: 3 },
             bar: { groupWidth: '75%' },
