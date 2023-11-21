@@ -1,48 +1,20 @@
-async function listUniqueCitiesAndStates(data) {
-	// Cria um conjunto para armazenar cidades e estados únicos
-	const uniqueCitiesAndStates = new Set();
+// Cria um conjunto para armazenar cidades e estados únicos
+const uniqueCitiesAndStates = new Set();
 
+async function listUniqueCitiesAndStates(data) {
 	// Itera sobre o array de objetos e adiciona cidades e estados únicos ao conjunto
 	data.forEach(entry => {
-		uniqueCitiesAndStates.add(`${entry.municipio}, ${entry.estado}`);
+		// Verifica se a cidade e o estado não são vazios ou nulos antes de adicionar ao conjunto
+		if (entry.municipio && entry.estado) {
+			uniqueCitiesAndStates.add(`${entry.municipio}, ${entry.estado}`);
+		}
 	});
 
 	// Converte o conjunto de volta para um array
 	const uniqueArray = Array.from(uniqueCitiesAndStates);
 
-	// Exibe a lista de cidades e estados únicos
-	uniqueArray.forEach(async item => {
-		console.log(item);
-		const [city, state] = item.split(', ');
-
-		// Chama a função getCoordinatesFromCityDb para obter as coordenadas de cada cidade
-		const coordinates = await getCoordinatesFromCityDb(state, city);
-		console.log(`Coordenadas de ${city}, ${state}:`, coordinates);
-	});
+	return uniqueArray;
 }
-
-// Abordagem antiga: carregava o JSON para cada script.js
-// $(document).ready(function () {
-// 	$.ajax({
-// 		url: 'backend/get_data.php',
-// 		type: 'GET',
-// 		dataType: 'json',
-// 		success: function (data) {
-// 			listUniqueCitiesAndStates(data);
-// 		},
-// 		error: function (xhr, status, error) {
-// 			console.error('Erro ao obter dados:', status, error);
-// 		}
-// 	});
-// });
-
-fetchData(function (error, data) {
-	if (error) {
-		console.error('Erro ao obter dados:', error);
-	} else {
-		listUniqueCitiesAndStates(data);
-	}
-});
 
 async function getCoordinatesFromCityDb(state, city) {
 	try {
@@ -60,7 +32,34 @@ async function getCoordinatesFromCityDb(state, city) {
 	}
 }
 
-async function drawMarkerGeoChart(data) {
+async function getCoordinatesForUniqueCities(data) {
+	// Cria um conjunto de cidades e estados únicos
+	const uniqueCitiesAndStates = await listUniqueCitiesAndStates(data);
+
+	// Exibe o carregamento
+	showLoading();
+
+	// Mapeia o conjunto para obter as coordenadas para cada cidade
+	const coordinatesPromises = Array.from(uniqueCitiesAndStates).map(async item => {
+		const [city, state] = item.split(', ');
+		return await getCoordinatesFromCityDb(state, city);
+	});
+
+	try {
+		// Aguarda todas as chamadas assíncronas
+		const coordinates = await Promise.all(coordinatesPromises);
+
+		drawMarkerGeoChart(data, uniqueCitiesAndStates, coordinates);
+
+		// Esconde o carregamento após a conclusão
+		hideLoading();
+
+	} catch (error) {
+		console.error('Erro ao obter coordenadas para cidades:', error);
+	}
+}
+
+async function drawMarkerGeoChart(data, uniqueCitiesAndStates, coordinates) {
 	var cityCount = {};
 
 	// Contagem de pacientes por cidade
@@ -79,21 +78,13 @@ async function drawMarkerGeoChart(data) {
 		features: []
 	};
 
-	// Obtém a lista de cidades e estados únicos
-	const uniqueCitiesAndStates = [];
-	data.forEach(entry => {
-		uniqueCitiesAndStates.push(`${entry.municipio}, ${entry.estado}`);
-	});
-
 	// Exibe o carregamento
 	showLoading();
 
 	// Itera sobre a lista de cidades e estados únicos
-	for (const item of uniqueCitiesAndStates) {
+	for (let i = 0; i < uniqueCitiesAndStates.length; i++) {
+		const item = uniqueCitiesAndStates[i];
 		const [city, state] = item.split(', ');
-
-		// Chama a função getCoordinatesFromCityDb para obter as coordenadas de cada cidade
-		const coordinates = await getCoordinatesFromCityDb(state, city);
 
 		// Adiciona a cidade ao geojsonData
 		var feature = {
@@ -104,15 +95,12 @@ async function drawMarkerGeoChart(data) {
 			},
 			geometry: {
 				type: 'Point',
-				coordinates: coordinates
+				coordinates: coordinates[i]
 			}
 		};
 
 		geojsonData.features.push(feature);
 	}
-
-	// Esconde o carregamento após a conclusão
-	hideLoading();
 
 	var map = L.map('markerGeoChart').setView([-7.100, -37.000], 6);
 
@@ -127,6 +115,9 @@ async function drawMarkerGeoChart(data) {
 			return L.marker(latlng).bindPopup(feature.properties.city + '<br>Número de Pacientes: ' + feature.properties.count);
 		}
 	}).addTo(map);
+
+	// Esconde o carregamento após a conclusão
+	hideLoading();
 }
 
 function showLoading() {
@@ -137,25 +128,10 @@ function hideLoading() {
 	document.getElementById('loading').style.display = 'none';
 }
 
-// // Abordagem antiga: carregava o JSON para cada script.js
-// $(document).ready(function () {
-// 	$.ajax({
-// 		url: 'backend/get_data.php',
-// 		type: 'GET',
-// 		dataType: 'json',
-// 		success: function (data) {
-// 			drawMarkerGeoChart(data);
-// 		},
-// 		error: function (xhr, status, error) {
-// 			console.error('Erro ao obter dados:', status, error);
-// 		}
-// 	});
-// });
-
 fetchData(function (error, data) {
 	if (error) {
 		console.error('Erro ao obter dados:', error);
 	} else {
-		drawMarkerGeoChart(data);
+		getCoordinatesForUniqueCities(data);
 	}
 });

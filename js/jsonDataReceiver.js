@@ -1,4 +1,6 @@
-let jsonData;
+if (typeof jsonData === 'undefined') {
+    let jsonData;
+}
 
 function fetchData(callback) {
     $(document).ready(function () {
@@ -10,6 +12,7 @@ function fetchData(callback) {
                 jsonData = data;
                 // Chama o callback com os dados quando estiverem prontos
                 callback(null, jsonData);
+                window.jsonData = jsonData;
             },
             error: function (xhr, status, error) {
                 // Chama o callback com erro, se houver
@@ -18,6 +21,3 @@ function fetchData(callback) {
         });
     });
 }
-
-// Adiciona a variável ao escopo global
-window.jsonData = jsonData;

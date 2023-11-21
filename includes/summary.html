@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório</title>
+    <style>
+        body {
+            margin-top: 50px;
+        }
+
+        #reportContainer {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 600px;
+        }
+
+        #printButton {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .patientSection {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Relatório</h1>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="d-flex flex-column" id="reportContainer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 d-flex justify-content-center">
+        <button class="bi bi-printer d-flex justify-content-center" id="printButton" onclick="printReport()"></button>
+    </div>
+
+    <script type="text/javascript" src="js/jsonDataReceiver.js"></script>
+    <script type="text/javascript" src="js/generateReport.js"></script>
+</body>
+
+</html>

@@ -48,7 +48,7 @@ function logout() {
   var vReq = new ntwReq("backend/serv.php?logout", function (data) {
     console.log(data.responseText);
     document.title = 'Aguardando autenticação...';
-    $('#overallstate').html('<font class="text-muted"><i class="bi bi-hourglass-split"></i>&nbsp;Aguardando autenticação...</font>');
+    // $('#overallstate').html('<font class="text-muted"><i class="bi bi-hourglass-split"></i>&nbsp;Aguardando autenticação...</font>');
     $("#staticBackdrop").modal("show");
   }, function () {
     alert("Saída falhou!");
@@ -62,7 +62,7 @@ function updatedb() {
     document.title = 'Dashboard Hospital';
     if (result.auth == "false") {
       document.title = 'Aguardando autenticação...';
-      $('#overallstate').html('<font class="text-muted"><i class="bi bi-hourglass-split"></i>&nbsp;Aguardando autenticação...</font>');
+      // $('#overallstate').html('<font class="text-muted"><i class="bi bi-hourglass-split"></i>&nbsp;Aguardando autenticação...</font>');
       $('#staticBackdrop').modal('show');
       $("footer").addClass("fixed-bottom");
       return;
