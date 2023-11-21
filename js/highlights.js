@@ -241,5 +241,7 @@ fetchData(function (error, data) {
         console.error('Erro ao obter dados:', error);
     } else {
         displayhighlights(data);
+        localStorage.setItem('generalInfoData', document.getElementById('generalInfo').innerHTML);
+        localStorage.setItem('highlightsData', document.getElementById('highlights').innerHTML);
     }
 });

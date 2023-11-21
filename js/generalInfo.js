@@ -142,8 +142,10 @@ function displayDashboardInfo(data) {
         </ul >
         `;
 
-    // Exibindo as informações no painel
-    generalInfo.innerHTML = dashboardHTML;
+    if (generalInfo) {
+        // Exibindo as informações no painel
+        generalInfo.innerHTML = dashboardHTML;
+    }
 }
 
 // Função para exibir as informações assim que os dados forem carregados
