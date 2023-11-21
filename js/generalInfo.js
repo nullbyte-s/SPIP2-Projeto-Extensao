@@ -91,7 +91,13 @@ function displayDashboardInfo(data) {
     const mostUsedBedType = Object.entries(bedTypes).sort((a, b) => b[1] - a[1])[0][0];
 
     // Evolução dos Casos
-    const evolutionTypes = countOccurrences(data.map(patient => patient.evolucao));
+    const allEvolutionTypes = data
+        .map(patient => patient.evolucao)
+        .filter(evolution => evolution.trim() !== '')
+    const evolutionTypes = Object.entries(countOccurrencesArray(allEvolutionTypes))
+        .sort(([, countA], [, countB]) => countB - countA)
+        .slice(0, 3)
+        .map(([evolution, count]) => [evolution, count]);
 
     // Vacinação
     // const vaccinationStatus = countOccurrences(data.map(patient => patient.vacina));
