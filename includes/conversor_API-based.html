@@ -145,12 +145,10 @@
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
-                    // return response.text(); // Altera para text para lidar com respostas não JSON
                     return response.json();
                 })
                 .then(data => {
                     // Manipula a resposta do backend, se necessário
-                    // console.log('POST successful:', data);
                     displayNotification('Convertido com sucesso!');
                     setTimeout(function () {
                         location.reload();

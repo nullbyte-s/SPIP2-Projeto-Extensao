@@ -114,9 +114,9 @@ var prevPieTabBtn = document.getElementById('prevPieTab');
 var nextPieTabBtn = document.getElementById('nextPieTab');
 var prevBarTabBtn = document.getElementById('prevBarTab');
 var nextBarTabBtn = document.getElementById('nextBarTab');
-var visiblePieTabs = 4; // Número de abas visíveis ao mesmo tempo
+var visiblePieTabs = 5; // Número de abas visíveis ao mesmo tempo
 var startPieTabIndex = 0;
-var visibleBarTabs = 4;
+var visibleBarTabs = 5;
 var startBarTabIndex = 0;
 
 prevPieTabBtn.addEventListener('click', function () {

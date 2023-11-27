@@ -8,8 +8,8 @@ function drawPieChart(data, tabIndex = 0) {
     function createPieChartOptions(title) {
         return {
             title: `Distribuição por ${title}`,
-            width: 500,
-            height: 300,
+            width: 630,
+            height: 280,
             legend: { position: 'top', maxLines: 3 },
             pieSliceText: 'percentage',
             backgroundColor: '#cfd3e3',

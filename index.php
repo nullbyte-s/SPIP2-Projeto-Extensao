@@ -20,7 +20,6 @@ $path=$_SERVER['SCRIPT_FILENAME'];
 $fol=substr($path, 0, -9);
 
 $passVal = ($config->get("general.pass")!=='c21f969b5f03d33d43e04f8f136e7682') ? "***notdefault***" : '';
-
 ?>
 
 <!DOCTYPE html>

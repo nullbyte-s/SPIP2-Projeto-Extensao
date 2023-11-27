@@ -12,6 +12,49 @@ function enrichReportWithHighlights(highlightsData) {
     document.getElementById('reportContainer').appendChild(highlightsSection);
 }
 
+// Função para exibir os gráficos
+function enrichReportWithCharts() {
+
+    const chartIds = [
+        'sexBarChart',
+        'ageBarChart',
+        'cityBarChart',
+        'symptomsBarChart',
+        'comorbiditiesBarChart',
+        'evolutionBarChart',
+        'vaccinationBarChart',
+        'diagnosticHypothesisBarChart',
+        'charts'
+    ];
+
+    const chartsSection = document.createElement('div');
+    chartsSection.innerHTML = `<h4>Gráficos</h4>`;
+    document.getElementById('reportContainer').appendChild(chartsSection);
+
+    const containerElement = document.getElementById('reportContainer');
+    containerElement.appendChild(generateChartElements(chartIds));
+
+    const scriptElement = document.createElement('script');
+    scriptElement.src = 'js/barChartReport.js';
+    document.head.appendChild(scriptElement);
+}
+
+// Função para gerar os elementos dinamicamente
+function generateChartElements(chartIds) {
+    const cardBody = document.createElement('div');
+    cardBody.classList.add('card-body', 'text-center', 'mx-auto', 'w-100');
+    // cardBody.style.maxHeight = '400px';
+
+    chartIds.forEach(chartId => {
+        const chartDiv = document.createElement('div');
+        chartDiv.classList.add('d-flex', 'justify-content-center', 'align-items-center');
+        chartDiv.id = chartId;
+        cardBody.appendChild(chartDiv);
+    });
+
+    return cardBody;
+}
+
 // Função para criar a variável patientsData
 function createPatientsData(data) {
     return data.map(patient => {
@@ -53,39 +96,11 @@ function createColoredElement(type, value) {
 function generateReport(data) {
     const reportContainer = document.getElementById('reportContainer');
 
-    // Enriquece o relatório com dados gerais
     const generalInfoData = localStorage.getItem('generalInfoData');
     enrichReportWithGeneralInfo(generalInfoData);
-
-    // Enriquece o relatório com destaques
     const highlightsData = localStorage.getItem('highlightsData');
     enrichReportWithHighlights(highlightsData);
-
-    // Itera sobre os dados e constrói o relatório
-    data.forEach(patient => {
-        const patientSection = document.createElement('div');
-        patientSection.classList.add('patientSection');
-
-        const patientTitle = document.createElement('h4');
-        patientTitle.innerText = `Paciente: ${patient.paciente}`;
-        patientSection.appendChild(patientTitle);
-
-        const patientDetails = document.createElement('div');
-        const detailsList = document.createElement('ul');
-
-        const patientDetailsItems = createPatientsData([patient])[0];
-
-        Object.entries(patientDetailsItems).forEach(([type, value]) => {
-            const listItem = createColoredElement(value.type, value.value);
-            detailsList.appendChild(listItem);
-        });
-
-        patientDetails.appendChild(detailsList);
-        patientSection.appendChild(patientDetails);
-
-        // Adiciona a seção do paciente ao contêiner do relatório
-        reportContainer.appendChild(patientSection);
-    });
+    enrichReportWithCharts();
 }
 
 // Função para acionar a impressão

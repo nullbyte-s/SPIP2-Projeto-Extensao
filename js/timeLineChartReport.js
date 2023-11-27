@@ -26,27 +26,8 @@ function drawTimelineChart(data, tabIndex = 0) {
             title: title,
             isStacked: true,
             legend: { position: 'bottom' },
-            width: 540,
+            width: 510,
             height: 320,
-            backgroundColor: '#cfd3e3',
-            hAxis: {
-                title: 'Período',
-                titleTextStyle: {
-                    color: '#1b0454',
-                },
-                textStyle: {
-                    color: '#1b0454',
-                },
-            },
-            vAxis: {
-                title: 'Valores',
-                titleTextStyle: {
-                    color: '#1b0454',
-                },
-                textStyle: {
-                    color: '#1b0454',
-                },
-            },
         };
     }
 
