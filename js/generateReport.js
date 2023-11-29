@@ -16,6 +16,8 @@ function enrichReportWithHighlights(highlightsData) {
 function enrichReportWithCharts() {
 
     const chartIds = [
+        'casesTimeLineChart',
+        'symptomsTimeLineChart',
         'sexBarChart',
         'ageBarChart',
         'cityBarChart',
@@ -23,8 +25,7 @@ function enrichReportWithCharts() {
         'comorbiditiesBarChart',
         'evolutionBarChart',
         'vaccinationBarChart',
-        'diagnosticHypothesisBarChart',
-        'charts'
+        'diagnosticHypothesisBarChart'
     ];
 
     const chartsSection = document.createElement('div');
@@ -35,7 +36,7 @@ function enrichReportWithCharts() {
     containerElement.appendChild(generateChartElements(chartIds));
 
     const scriptElement = document.createElement('script');
-    scriptElement.src = 'js/barChartReport.js';
+    scriptElement.src = 'js/chartsReport.js';
     document.head.appendChild(scriptElement);
 }
 
